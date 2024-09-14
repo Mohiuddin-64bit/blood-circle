@@ -1,11 +1,28 @@
-import React from 'react'
+import Link from "next/link";
+import React from "react";
 
 const Home = () => {
   return (
-    <div className='flex h-screen max-h-screen justify-center items-center'>
-      <h3 className='text-4xl'>Welcome to the <span className='text-blue-400'>Blood Circle</span></h3>
+    <div className="flex flex-col h-screen max-h-screen justify-center items-center">
+      <h3 className="text-4xl text-center">
+        Welcome to the
+        <br />
+        <span className="text-green-500 font-bold"> Blood Circle</span>
+      </h3>
+      <div className="flex flex-col md:flex-row gap-2 md:gap-7 lg:gap-12 mt-12 px-12">
+        <Link href="/donner">
+          <div className="flex justify-center items-center w-44 dot-border h-32 cursor-pointer hover:bg-dark-200 transition-all rounded-xl">
+            Need Blood🩸
+          </div>
+        </Link>
+        <Link href="/register">
+          <div className="flex justify-center items-center w-44 dot-border h-32 cursor-pointer hover:bg-dark-200 transition-all rounded-xl">
+            I&apos;m Donner
+          </div>
+        </Link>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;
