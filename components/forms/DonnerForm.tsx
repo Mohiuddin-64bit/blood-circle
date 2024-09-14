@@ -4,8 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Form } from "@/components/ui/form";
-import { Button } from "../ui/button";
 import CustomFormField from "../CustomFormField";
+import SubmitButton from "../SubmitButton";
+import { useState } from "react";
+import { userFormValidation } from "@/lib/validation";
+// import { useRouter } from "next/navigation";
 
 export enum FormFieldTypes {
   INPUT = "input",
@@ -18,22 +21,35 @@ export enum FormFieldTypes {
   SKELETON = "skeleton",
 }
 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-});
-
 const DonnerForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const [isLoading, setIsLoading] = useState(false);
+  // const router = useRouter();
+
+  const form = useForm<z.infer<typeof userFormValidation>>({
+    resolver: zodResolver(userFormValidation),
     defaultValues: {
-      username: "",
+      name: "",
+      email: "",
+      phone: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof userFormValidation>) {
+    setIsLoading(true);
     console.log(values);
+    try {
+      //   const userData = {
+      //     name: values.name,
+      //     email: values.email,
+      //     phone: values.phone,
+      //   };
+      //   const user = await createUser(userData);
+      //   if(user) router.push(`/donner/${user.id}/register`);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   }
   return (
     <Form {...form}>
@@ -68,10 +84,9 @@ const DonnerForm = () => {
           fieldType={FormFieldTypes.PHONE_INPUT}
           name="phone"
           label="Phone Number"
-          placeholder="+8801307483244"
         />
 
-        <Button type="submit">Submit</Button>
+        <SubmitButton isloading={isLoading}>Register</SubmitButton>
       </form>
     </Form>
   );
