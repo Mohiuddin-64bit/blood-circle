@@ -6,10 +6,8 @@ import React from "react";
 
 const DonnerRegister = async({params: {userId}}: SearchParamProps) => {
 
-  console.log(userId)
 
   const user = await getUser("userId");
-  console.log("User fetched successfully:", user);
 
   return (
     <div className="flex h-screen max-h-screen">

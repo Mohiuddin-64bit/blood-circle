@@ -15,7 +15,6 @@ export const createUser = async (user: CreateUserParams) => {
       undefined,
       user.name
     );
-    console.log("User created successfully:", newUser);
     return parseStringify(newUser);
   } catch (error: any) {
     // Check existing user
@@ -33,8 +32,6 @@ export const createUser = async (user: CreateUserParams) => {
 export const getUser = async (userId: string) => {
   try {
     const user = await users.get(userId);
-    console.log("User fetched successfully:", user);
-    return parseStringify(user);
     return parseStringify(user);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);
