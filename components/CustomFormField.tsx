@@ -10,11 +10,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Control } from "react-hook-form";
-import { FormFieldTypes } from "./forms/DonnerForm";
 import Image from "next/image";
 import { Input } from "./ui/input";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
+import { FormFieldTypes } from "./form/UserForm";
 
 interface CustomProps {
   control: Control<any>;

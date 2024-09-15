@@ -1,10 +1,10 @@
-import React from "react";
-import { Button } from "./ui/button";
 import Image from "next/image";
+
+import { Button } from "./ui/button";
 
 interface ButtonProps {
   isLoading: boolean;
-  className: string;
+  className?: string;
   children: React.ReactNode;
 }
 
@@ -24,7 +24,7 @@ const SubmitButton = ({ isLoading, className, children }: ButtonProps) => {
             height={24}
             className="animate-spin"
           />
-          Loading ...
+          Loading...
         </div>
       ) : (
         children

@@ -8,7 +8,8 @@ import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { userFormValidation } from "@/lib/validation";
-// import { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { createUser } from "@/lib/actions/user.actions";
 
 export enum FormFieldTypes {
   INPUT = "input",
@@ -21,9 +22,9 @@ export enum FormFieldTypes {
   SKELETON = "skeleton",
 }
 
-const DonnerForm = () => {
+const UserForm = () => {
   const [isLoading, setIsLoading] = useState(false);
-  // const router = useRouter();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof userFormValidation>>({
     resolver: zodResolver(userFormValidation),
@@ -36,20 +37,18 @@ const DonnerForm = () => {
 
   async function onSubmit(values: z.infer<typeof userFormValidation>) {
     setIsLoading(true);
-    console.log(values);
     try {
-      //   const userData = {
-      //     name: values.name,
-      //     email: values.email,
-      //     phone: values.phone,
-      //   };
-      //   const user = await createUser(userData);
-      //   if(user) router.push(`/donner/${user.id}/register`);
+      const userData = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
+      const user = await createUser(userData);
+      if (user) router.push(`/donner/${user.id}/register`);
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
+    setIsLoading(false);
   }
   return (
     <Form {...form}>
@@ -85,11 +84,10 @@ const DonnerForm = () => {
           name="phone"
           label="Phone Number"
         />
-
-        <SubmitButton isloading={isLoading}>Register</SubmitButton>
+        <SubmitButton isLoading={isLoading}>Register</SubmitButton>
       </form>
     </Form>
   );
 };
 
-export default DonnerForm;
+export default UserForm;
