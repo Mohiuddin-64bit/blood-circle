@@ -21,6 +21,9 @@ import { SelectItem } from "../ui/select";
 import FileUploader from "./FileUploader";
 
 const RegisterForm = ({ user }: { user: User }) => {
+
+  console.log(user);
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 

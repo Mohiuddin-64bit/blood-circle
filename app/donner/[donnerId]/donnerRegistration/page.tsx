@@ -6,6 +6,8 @@ import React from "react";
 
 const DonnerRegister = async({params: {userId}}: SearchParamProps) => {
 
+  console.log(userId);
+
 
   const user = await getUser("userId");
 
