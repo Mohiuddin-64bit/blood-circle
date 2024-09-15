@@ -1,3 +1,5 @@
+"use server"
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ID, Query } from "node-appwrite";
 import { users } from "../appwrite.config";
@@ -21,7 +23,6 @@ export const createUser = async (user: CreateUserParams) => {
       const existingUser = await users.list([
         Query.equal("email", [user.email]),
       ]);
-
       return existingUser.users[0];
     }
     console.error("An error occurred while creating a new user:", error);
