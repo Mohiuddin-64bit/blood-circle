@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ID, Query } from "node-appwrite";
@@ -26,5 +26,17 @@ export const createUser = async (user: CreateUserParams) => {
       return existingUser.users[0];
     }
     console.error("An error occurred while creating a new user:", error);
+  }
+};
+
+// GET APPWRITE USER
+export const getUser = async (userId: string) => {
+  try {
+    const user = await users.get(userId);
+    console.log("User fetched successfully:", user);
+    return parseStringify(user);
+    return parseStringify(user);
+  } catch (error: any) {
+    console.error("An error occurred while fetching user:", error);
   }
 };
