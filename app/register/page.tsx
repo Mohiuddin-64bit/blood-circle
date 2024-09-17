@@ -25,13 +25,13 @@ const RegisterPage = () => {
           </div>
         </div>
       </section>
-      <Image
+      {/* <Image
         src="/assets/images/onboarding-img.png"
         height={1000}
         width={1000}
         alt="register"
         className="side-img max-w-[50%]"
-      />
+      /> */}
     </div>
   );
 };

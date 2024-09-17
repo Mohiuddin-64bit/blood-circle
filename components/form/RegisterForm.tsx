@@ -7,45 +7,57 @@ import { Form, FormControl } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
-import { userFormValidation } from "@/lib/validation";
-import { useRouter } from "next/navigation";
-import { createUser } from "@/lib/actions/user.actions";
+import { DonnerFormValidation } from "@/lib/validation";
 import { FormFieldTypes } from "./UserForm";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
 import {
   BloodGroupOptions,
+  donnerFormDefaultValues,
   GenderOptions,
   identificationTypes,
 } from "@/constants";
 import { SelectItem } from "../ui/select";
 import FileUploader from "./FileUploader";
+import { useRouter } from "next/navigation";
+import { registerDonner } from "@/lib/actions/user.actions";
 
 const RegisterForm = ({ user }: { user: User }) => {
-
-  console.log(user);
-
+  console.log(user)
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof userFormValidation>>({
-    resolver: zodResolver(userFormValidation),
+  const form = useForm<z.infer<typeof DonnerFormValidation>>({
+    resolver: zodResolver(DonnerFormValidation),
     defaultValues: {
-      name: "",
-      email: "",
-      phone: "",
+      ...donnerFormDefaultValues,
     },
   });
 
-  async function onSubmit(values: z.infer<typeof userFormValidation>) {
+  async function onSubmit(values: z.infer<typeof DonnerFormValidation>) {
     setIsLoading(true);
+    let formData;
+    if (
+      values.identificationDocument &&
+      values.identificationDocument.length > 0
+    ) {
+      const blobFile = new Blob([values.identificationDocument[0]], {
+        type: values.identificationDocument[0].type,
+      });
+      formData = new FormData();
+      formData.append("blobFile", blobFile);
+      formData.append("fileName", values.identificationDocument[0].name);
+    }
     try {
-      const userData = {
-        name: values.name,
-        email: values.email,
-        phone: values.phone,
+      const donnerData = {
+        ...values,
+        userId: user.$id,
+        birthDate: new Date(values.birthDate),
+        identificationDocument: formData,
       };
-      const user = await createUser(userData);
-      if (user) router.push(`/donner/${user.$id}/donnerRegistration`);
+      const donner = await registerDonner(donnerData);
+      if (donner) {
+        router.push(`/${donner}/myProfile`);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -67,15 +79,26 @@ const RegisterForm = ({ user }: { user: User }) => {
           </div>
         </section>
 
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldTypes.INPUT}
-          name="name"
-          label="Full Name *"
-          placeholder="John Doe"
-          iconSrc="/assets/icons/user.svg"
-          iconAlt="user"
-        />
+        <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.INPUT}
+            name="firstName"
+            label="First Name*"
+            placeholder="Iqbal"
+            iconSrc="/assets/icons/user.svg"
+            iconAlt="user"
+          />
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.INPUT}
+            name="lastName"
+            label="Last Name*"
+            placeholder="Hossain"
+            iconSrc="/assets/icons/user.svg"
+            iconAlt="user"
+          />
+        </div>
 
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
@@ -160,29 +183,6 @@ const RegisterForm = ({ user }: { user: User }) => {
             name="emergencyContactNumber"
             label="Emergency Contact Number"
             placeholder="017XXXXXXXX"
-          />
-        </div>
-        <section className="space-y-6">
-          <div className="mb-9 space-y-1">
-            <h2 className="sub-header">Identification</h2>
-          </div>
-        </section>
-
-        <div className="flex flex-col gap-6 xl:flex-row">
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.INPUT}
-            name="GovernmentId"
-            label="Government Issued ID"
-            placeholder="NID, Passport, etc."
-          />
-
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.INPUT}
-            name="idNumber"
-            label="ID Number"
-            placeholder="123456789"
           />
         </div>
 
@@ -290,7 +290,7 @@ const RegisterForm = ({ user }: { user: User }) => {
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.SELECT}
-            name="tattos"
+            name="tattoos"
             label="Any Recent Tattoos or Piercings *"
             placeholder="Select Yes / No"
           >
@@ -346,7 +346,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             control={form.control}
             fieldType={FormFieldTypes.SELECT}
             name="IdentificationType"
-            label="Identification Type *"
+            label="Identification Type"
             placeholder="Select Identification Type"
           >
             {identificationTypes.map((option) => (
