@@ -1,11 +1,64 @@
-import React from 'react'
+import { StatCard } from "@/components/StatCard";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 
 const AllDonnerPage = () => {
-  return (
-    <div className=''>
-      <h4 className='text-center pt-6 text-4xl'>All Donner</h4>
-    </div>
-  )
-}
+  const appointments = {
+    scheduledCount: 10,
+    pendingCount: 5,
+    cancelledCount: 2,
+  };
 
-export default AllDonnerPage
+  return (
+    <div className="mx-auto flex max-w-7xl flex-col space-y-14">
+      <header className="admin-header">
+        <Link href="/" className="cursor-pointer">
+          <Image
+            src="/assets/icons/logo-full.svg"
+            height={32}
+            width={162}
+            alt="logo"
+            className="h-8 w-fit"
+          />
+        </Link>
+
+        <p className="text-16-semibold">Admin Dashboard</p>
+      </header>
+
+      <main className="admin-main">
+        <section className="w-full space-y-4">
+          <h1 className="header">All Donner 🩸</h1>
+          <p className="text-dark-700">
+            Here we can see all the donner details.
+          </p>
+        </section>
+
+        <section className="admin-stat">
+          <StatCard
+            type="appointments"
+            count={appointments.scheduledCount}
+            label="Scheduled appointments"
+            icon={"/assets/icons/appointments.svg"}
+          />
+          <StatCard
+            type="pending"
+            count={appointments.pendingCount}
+            label="Pending appointments"
+            icon={"/assets/icons/pending.svg"}
+          />
+          <StatCard
+            type="cancelled"
+            count={appointments.cancelledCount}
+            label="Cancelled appointments"
+            icon={"/assets/icons/cancelled.svg"}
+          />
+        </section>
+
+        {/* <DataTable columns={columns} data={appointments.documents} /> */}
+      </main>
+    </div>
+  );
+};
+
+export default AllDonnerPage;

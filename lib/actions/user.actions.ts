@@ -49,6 +49,22 @@ export const getUser = async (userId: string) => {
   }
 };
 
+// Get APPWRITE Donner 
+export const getDonner = async (userId: string) => {
+  try {
+    const donner = await databases.listDocuments(
+      DATABASE_ID!,
+      DONNER_COLLECTION_ID!,
+      [
+        Query.equal("userId", userId),
+      ]
+    );
+    return parseStringify(donner.documents[0]);
+  } catch (error: any) {
+    console.error("An error occurred while fetching user:", error);
+  }
+};
+
 // register Donner
 
 export const registerDonner = async ({
