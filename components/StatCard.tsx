@@ -5,10 +5,11 @@ type StatCardProps = {
   type: "appointments" | "pending" | "cancelled";
   count: number;
   label: string;
+  description: string;
   icon: string;
 };
 
-export const StatCard = ({ count = 0, label, icon, type }: StatCardProps) => {
+export const StatCard = ({ count = 0, label, icon, type, description }: StatCardProps) => {
   return (
     <div
       className={clsx("stat-card", {
@@ -27,8 +28,10 @@ export const StatCard = ({ count = 0, label, icon, type }: StatCardProps) => {
         />
         <h2 className="text-32-bold text-white">{count}</h2>
       </div>
-
-      <p className="text-14-regular">{label}</p>
+      <div>
+        <p className="text-14-regular">{label}</p>
+        <p className="text-sm text-gray-400 mt-1">{description}</p>
+      </div>
     </div>
   );
 };

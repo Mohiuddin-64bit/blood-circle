@@ -25,6 +25,8 @@ declare type BloodGroup =
   | "O+"
   | "O-";
 
+declare type Status = "active" | "anactive";
+
 declare type YesOrNo = "Yes" | "No";
 
 type IdentificationType = "National ID" | "Passport" | "Driver's License" | "Birth Certificate" | string | undefined;

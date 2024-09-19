@@ -50,3 +50,9 @@ export const donnerFormDefaultValues = {
   privacyConsent: false,
   disclosureConsent: false,
 };
+
+export const StatusIcon = {
+  active: "/assets/icons/active.svg",
+  pending: "/assets/icons/pending.svg",
+  cancelled: "/assets/icons/cancelled.svg",
+}

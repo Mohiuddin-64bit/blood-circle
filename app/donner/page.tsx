@@ -1,14 +1,58 @@
 import { StatCard } from "@/components/StatCard";
+import { columns, Donner } from "@/components/table/columns";
+import { DataTable } from "@/components/table/DateTable";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const AllDonnerPage = () => {
+const AllDonnerPage = async () => {
+  const data = await getData();
+
   const appointments = {
     scheduledCount: 10,
     pendingCount: 5,
     cancelledCount: 2,
+    documents: [
+      {
+        id: 1,
+        name: "John Doe",
+        age: 25,
+        bloodGroup: "A+",
+        location: "Dhaka",
+        phone: "01700000000",
+      },
+    ],
   };
+
+  async function getData(): Promise<Donner[]> {
+    // Fetch data from your API here.
+    return [
+      {
+        id: "728ed52f",
+        name: "John Doe",
+        age: 25,
+        phone: "01700000000",
+        bloodGroup: "A+",
+        location: "Dhaka",
+      },
+      {
+        id: "728ed52f",
+        name: "John Doe",
+        age: 25,
+        phone: "01700000000",
+        bloodGroup: "A+",
+        location: "Dhaka",
+      },
+      {
+        id: "728ed52f",
+        name: "John Doe",
+        age: 25,
+        phone: "01700000000",
+        bloodGroup: "A+",
+        location: "Dhaka",
+      },
+    ];
+  }
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
@@ -22,8 +66,6 @@ const AllDonnerPage = () => {
             className="h-8 w-fit"
           />
         </Link>
-
-        <p className="text-16-semibold">Admin Dashboard</p>
       </header>
 
       <main className="admin-main">
@@ -38,24 +80,27 @@ const AllDonnerPage = () => {
           <StatCard
             type="appointments"
             count={appointments.scheduledCount}
-            label="Scheduled appointments"
-            icon={"/assets/icons/appointments.svg"}
+            label="Total Donner"
+            description="Total number of donner in the system."
+            icon={"/assets/icons/person.svg"}
           />
           <StatCard
             type="pending"
             count={appointments.pendingCount}
-            label="Pending appointments"
-            icon={"/assets/icons/pending.svg"}
+            label="Active Donner"
+            description="Donner who can donate blood now."
+            icon={"/assets/icons/active.svg"}
           />
           <StatCard
             type="cancelled"
             count={appointments.cancelledCount}
-            label="Cancelled appointments"
-            icon={"/assets/icons/cancelled.svg"}
+            label="Inactive Donner"
+            description="Donner who donated blood in last 3 months."
+            icon={"/assets/icons/inactive.svg"}
           />
         </section>
 
-        {/* <DataTable columns={columns} data={appointments.documents} /> */}
+        <DataTable columns={columns} data={data} />
       </main>
     </div>
   );
