@@ -22,7 +22,6 @@ import { useRouter } from "next/navigation";
 import { registerDonner } from "@/lib/actions/user.actions";
 
 const RegisterForm = ({ user }: { user: User }) => {
-  console.log(user)
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 

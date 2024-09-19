@@ -53,6 +53,5 @@ export const donnerFormDefaultValues = {
 
 export const StatusIcon = {
   active: "/assets/icons/active.svg",
-  pending: "/assets/icons/pending.svg",
-  cancelled: "/assets/icons/cancelled.svg",
+  inactive: "/assets/icons/inactive.svg",
 }

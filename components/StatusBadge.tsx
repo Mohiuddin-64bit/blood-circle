@@ -14,7 +14,7 @@ const StatusBadge = ({ status }: { status: Status }) => {
       <Image className="h-fit w-3" src={StatusIcon[status]} height={24} width={24} alt={status} />
       <p className={clsx("text-12-semibold capitalize",{
         "text-white": status === "active",
-        "text-black": status === "inactive",
+        "text-red-500": status === "inactive",
       })}>
         {status}
       </p>

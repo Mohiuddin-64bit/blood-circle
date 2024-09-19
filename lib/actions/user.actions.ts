@@ -49,15 +49,13 @@ export const getUser = async (userId: string) => {
   }
 };
 
-// Get APPWRITE Donner 
+// Get APPWRITE Donner
 export const getDonner = async (userId: string) => {
   try {
     const donner = await databases.listDocuments(
       DATABASE_ID!,
       DONNER_COLLECTION_ID!,
-      [
-        Query.equal("userId", userId),
-      ]
+      [Query.equal("userId", userId)]
     );
     return parseStringify(donner.documents[0]);
   } catch (error: any) {
@@ -71,7 +69,6 @@ export const registerDonner = async ({
   identificationDocument,
   ...donner
 }: RegisterDonnerParams) => {
-  console.log(identificationDocument);
   try {
     let file;
     if (identificationDocument) {
@@ -81,13 +78,6 @@ export const registerDonner = async ({
       );
       file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
     }
-
-    console.log({
-      identificationDocumentId: file?.$id ? file.$id : null,
-      identificationDocumentUrl: file?.$id
-        ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`
-        : null,
-    });
 
     const newDonner = await databases.createDocument(
       DATABASE_ID!,
@@ -107,3 +97,18 @@ export const registerDonner = async ({
   }
 };
 
+export const getRecentDonnerList = async () => {
+  try {
+    const recentDonnerList = await databases.listDocuments(
+      DATABASE_ID!,
+      DONNER_COLLECTION_ID!,
+      [Query.orderDesc("$createdAt")]
+    );
+    return parseStringify(recentDonnerList);
+  } catch (error: any) {
+    console.error(
+      "An error occurred while fetching recent donner list:",
+      error
+    );
+  }
+};

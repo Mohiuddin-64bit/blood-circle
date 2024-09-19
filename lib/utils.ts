@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+import { getRecentDonnerList } from "./actions/user.actions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -8,6 +9,54 @@ export function cn(...inputs: ClassValue[]) {
 export const parseStringify = (value: unknown) => JSON.parse(JSON.stringify(value));
 
 export const convertFileToUrl = (file: File) => URL.createObjectURL(file);
+
+// Calculate the age of the Donner based on the birth date
+export const calculateAge = (birthDate: Date) => {
+  const today = new Date();
+  const birthDateObj = new Date(birthDate);
+  let age = today.getFullYear() - birthDateObj.getFullYear();
+  const monthDifference = today.getMonth() - birthDateObj.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDateObj.getDate())
+  ) {
+    age--;
+  }
+
+  return age;
+};
+
+// Get the status of the Donner based on the last donation date
+export const calculateStatus = (lastDonationDate: Date, gender: string) => {
+  const today = new Date();
+  const lastDonation = new Date(lastDonationDate);
+  const monthDifference =
+    today.getMonth() -
+    lastDonation.getMonth() +
+    12 * (today.getFullYear() - lastDonation.getFullYear());
+
+  const threshold = gender === "Male" ? 4 : 6;
+
+  return monthDifference > threshold ? "active" : "inactive";
+};
+
+export const getDonorStatusCounts = async () => {
+  const donors = await getRecentDonnerList();
+  let activeCount = 0;
+  let inactiveCount = 0;
+
+  donors?.documents.forEach((donor:RegisterDonnerParams) => {
+    const status = calculateStatus(donor.lastDonationDate, donor.gender);
+    if (status === "active") {
+      activeCount++;
+    } else {
+      inactiveCount++;
+    }
+  });
+
+  return { activeCount, inactiveCount };
+};
 
 // FORMAT DATE TIME
 export const formatDateTime = (dateString: Date | string) => {

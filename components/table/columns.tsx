@@ -1,30 +1,11 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "../ui/dropdown-menu";
-import { Button } from "../ui/button";
-import { MessageSquareText, MoreHorizontal, Phone } from "lucide-react";
+import { MessageSquareText, Phone } from "lucide-react";
 import StatusBadge from "../StatusBadge";
+import { calculateAge, calculateStatus } from "@/lib/utils";
 
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Donner = {
-  id: string;
-  name: string;
-  age: number;
-  phone: string;
-  bloodGroup: string;
-  location: string;
-};
-
-export const columns: ColumnDef<Donner>[] = [
+export const columns: ColumnDef<RegisterDonnerParams>[] = [
   {
     header: "ID",
     cell: ({ row }) => <p className="text-14-medium">{row.index + 1}</p>,
@@ -32,12 +13,18 @@ export const columns: ColumnDef<Donner>[] = [
   {
     accessorKey: "name",
     header: "Name",
-    cell: ({ row }) => <p className="text-14-medium">{row.original.name}</p>,
+    cell: ({ row }) => (
+      <p className="text-14-medium">{`${row.original.firstName} ${row.original.lastName}`}</p>
+    ),
   },
   {
-    accessorKey: "age",
-    header: "Age",
-    cell: ({ row }) => <p className="text-14-medium">{row.original.age}</p>,
+    accessorKey: "birthDate",
+    header: "Birth Date",
+    cell: ({ row }) => (
+      <p className="text-14-medium">
+        {calculateAge(row.original.birthDate)} years
+      </p>
+    ),
   },
   {
     accessorKey: "bloodGroup",
@@ -49,30 +36,37 @@ export const columns: ColumnDef<Donner>[] = [
   {
     accessorKey: "location",
     header: "Location",
-    cell: ({ row }) => (
-      <p className="text-14-medium">{row.original.location}</p>
-    ),
+    cell: ({ row }) => <p className="text-14-medium">{row.original.address}</p>,
   },
   {
     accessorKey: "status",
     header: "Status",
-    cell: ({ row }) => (
-      <div className="min-w-[115px]">
-        <StatusBadge status="active" />
-      </div>
-    ),
+    cell: ({ row }) => {
+      const { lastDonationDate, gender } = row.original;
+      const status = calculateStatus(lastDonationDate, gender);
+
+      return (
+        <div className="min-w-[115px]">
+          <StatusBadge status={status} />
+        </div>
+      );
+    },
   },
   {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-2 ">
-        <div className="dot-border rounded-xl hover:bg-dark-200 transition-all">
-          <Phone />
-        </div>
-        <div className="dot-border rounded-xl hover:bg-dark-200 transition-all">
-          <MessageSquareText />
-        </div>
+        <a href={`tel:${row.original.phone}`}>
+          <div className="dot-border rounded-xl hover:bg-dark-200 transition-all">
+            <Phone />
+          </div>
+        </a>
+        <a href={`sms:${row.original.phone}`}>
+          <div className="dot-border rounded-xl hover:bg-dark-200 transition-all">
+            <MessageSquareText />
+          </div>
+        </a>
       </div>
     ),
   },

@@ -25,7 +25,7 @@ declare type BloodGroup =
   | "O+"
   | "O-";
 
-declare type Status = "active" | "anactive";
+declare type Status = "active" | "inactive";
 
 declare type YesOrNo = "Yes" | "No";
 
