@@ -89,7 +89,7 @@ export function DataTable<TData, TValue>({
           className="shad-gray-btn"
         >
           <Image
-     src="/assets/icons/arrow.svg"
+            src="/assets/icons/arrow.svg"
             width={24}
             height={24}
             alt="arrow"
@@ -103,7 +103,7 @@ export function DataTable<TData, TValue>({
           className="shad-gray-btn"
         >
           <Image
-          className="rotate-180"
+            className="rotate-180"
             src="/assets/icons/arrow.svg"
             width={24}
             height={24}

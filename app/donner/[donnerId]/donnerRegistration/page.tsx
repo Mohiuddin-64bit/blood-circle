@@ -1,13 +1,15 @@
 import RegisterForm from "@/components/form/RegisterForm";
-import { getUser } from "@/lib/actions/user.actions";
+import { getAccount } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import React from "react";
 
 
 const DonnerRegister = async({params: {userId}}: SearchParamProps) => {
 
+  console.log(userId, "userId");
 
-  const user = await getUser(userId);
+  const user = await getAccount();
+  console.log(user, "user");
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -20,13 +22,10 @@ const DonnerRegister = async({params: {userId}}: SearchParamProps) => {
             alt="patient"
             className="mb-12 h-10 w-fit"
           />
-
           <RegisterForm user={user} />
-
           <p className="copyright py-12">© 2024 CarePluse</p>
         </div>
       </section>
-
       <Image
         src="/assets/images/register-img.png"
         height={1000}

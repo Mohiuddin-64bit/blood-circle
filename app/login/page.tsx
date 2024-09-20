@@ -1,10 +1,10 @@
 
-import UserForm from "@/components/form/UserForm";
+import LoginForm from "@/components/form/LoginForm";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const RegisterPage = () => {
+const LoginPage = () => {
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container my-auto">
@@ -16,24 +16,25 @@ const RegisterPage = () => {
             alt="logo"
             className="mb-12 h-10"
           />
-          <UserForm />
+          <LoginForm />
+
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">
               © 2024 Donner. All rights reserved.
             </p>
-            <Link href="/login">Login</Link>
+            <Link href="/register">Register</Link>
           </div>
         </div>
       </section>
-      <Image
-        src="/assets/images/appointment-img.png"
-        height={100}
-        width={700}
+      {/* <Image
+        src="/assets/images/onboarding-img.png"
+        height={1000}
+        width={1000}
         alt="register"
         className="side-img max-w-[50%]"
-      />
+      /> */}
     </div>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

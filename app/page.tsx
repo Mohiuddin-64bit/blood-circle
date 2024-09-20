@@ -1,7 +1,8 @@
 import Link from "next/link";
 import React from "react";
 
-const Home = () => {
+const Home = async() => {
+
   return (
     <div className="flex flex-col h-screen max-h-screen justify-center items-center">
       <h3 className="text-4xl text-center">

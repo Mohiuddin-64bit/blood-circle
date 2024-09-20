@@ -3,6 +3,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ID, Query } from "node-appwrite";
 import {
+  account,
   BUCKET_ID,
   DATABASE_ID,
   databases,
@@ -23,7 +24,7 @@ export const createUser = async (user: CreateUserParams) => {
       ID.unique(),
       user.email,
       user.phone,
-      undefined,
+      user.password,
       user.name
     );
     return parseStringify(newUser);
@@ -36,6 +37,62 @@ export const createUser = async (user: CreateUserParams) => {
       return existingUser.users[0];
     }
     console.error("An error occurred while creating a new user:", error);
+  }
+};
+
+// Create APPWRITE ACCOUNT
+export const createAccount = async (user: CreateAccountParams) => {
+  try {
+    const newUser = await account.create(
+      ID.unique(),
+      user.email,
+      user.password,
+      user.name,
+    );
+
+    await loginAccount({
+      email: user.email,
+      password: user.password
+    });
+
+    return parseStringify(newUser);
+
+  } catch (error: any) {
+    console.error("An error occurred while creating a new user:", error);
+    throw error; // Re-throw the error to handle it further up the call stack if needed
+  }
+};
+
+// Login APPWRITE ACCOUNT
+export const loginAccount = async (user: LoginAccountParams) => {
+  try {
+    const loginUser = await account.createEmailPasswordSession(
+      user.email,
+      user.password
+    );
+    console.log(loginUser, "loginUser");
+    return parseStringify(loginUser);
+  } catch (error: any) {
+    console.error("An error occurred while fetching user:", error.message);
+  }
+};
+
+// GET APPWRITE Account
+export const getAccount = async () => {
+  try {
+    const user = await account.get();
+    return user;
+  } catch (error: any) {
+    console.error("An error occurred while fetching user:", error);
+  }
+};
+// Logout APPWRITE Account
+export const logoutAccount = async () => {
+  try {
+    const logoutUser = await account.deleteSession("current");
+    return parseStringify(logoutUser);
+  } catch (error: any) {
+    console.error("An error occurred while fetching user:", error);
   }
 };
 
@@ -97,6 +154,7 @@ export const registerDonner = async ({
   }
 };
 
+// Get Recent Donner List
 export const getRecentDonnerList = async () => {
   try {
     const recentDonnerList = await databases.listDocuments(
@@ -110,5 +168,20 @@ export const getRecentDonnerList = async () => {
       "An error occurred while fetching recent donner list:",
       error
     );
+  }
+};
+
+// Get Donner By Id
+export const getDonnerById = async (donarId: string) => {
+  console.log(donarId, "adfasdfasdfasfasdflkjadsfkljsadfl");
+  try {
+    const donner = await databases.getDocument(
+      DATABASE_ID!,
+      DONNER_COLLECTION_ID!,
+      donarId
+    );
+    return parseStringify(donner);
+  } catch (error: any) {
+    console.error("An error occurred while fetching donner:", error);
   }
 };

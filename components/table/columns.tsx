@@ -1,9 +1,10 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
-import { MessageSquareText, Phone } from "lucide-react";
+import { Eye, MessageSquareText, Phone } from "lucide-react";
 import StatusBadge from "../StatusBadge";
 import { calculateAge, calculateStatus } from "@/lib/utils";
+import Link from "next/link";
 
 export const columns: ColumnDef<RegisterDonnerParams>[] = [
   {
@@ -51,19 +52,22 @@ export const columns: ColumnDef<RegisterDonnerParams>[] = [
         </div>
       );
     },
-  },
+},
   {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-2 ">
+        <Link href={`/profile/${row.original.$id}`} className="dot-border cursor-pointer rounded-xl hover:bg-dark-200 transition-all">
+          <Eye />
+        </Link>
         <a href={`tel:${row.original.phone}`}>
-          <div className="dot-border rounded-xl hover:bg-dark-200 transition-all">
+          <div className="dot-border cursor-pointer rounded-xl hover:bg-dark-200 transition-all">
             <Phone />
           </div>
         </a>
         <a href={`sms:${row.original.phone}`}>
-          <div className="dot-border rounded-xl hover:bg-dark-200 transition-all">
+          <div className="dot-border cursor-pointer rounded-xl hover:bg-dark-200 transition-all">
             <MessageSquareText />
           </div>
         </a>

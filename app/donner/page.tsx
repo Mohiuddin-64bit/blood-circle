@@ -25,9 +25,9 @@ const AllDonnerPage = async () => {
 
       <main className="admin-main">
         <section className="w-full space-y-4">
-          <h1 className="header">All Donner 🩸</h1>
+          <h1 className="header">All Donar 🩸</h1>
           <p className="text-dark-700">
-            Here we can see all the donner details.
+            Here we can see all the Donar details.
           </p>
         </section>
 
@@ -50,7 +50,7 @@ const AllDonnerPage = async () => {
             type="cancelled"
             label="Inactive Donner"
             count={donner?.total}
-            description="Donner who donated blood in last 3 months."
+            description="Donner who donated blood in last 4 months."
             icon={"/assets/icons/inactive.svg"}
           />
         </section>

@@ -7,71 +7,53 @@ import { Form } from "@/components/ui/form";
 import CustomFormField from "../CustomFormField";
 import SubmitButton from "../SubmitButton";
 import { useState } from "react";
-import { UserFormValidation } from "@/lib/validation";
+import { LoginFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createAccount } from "@/lib/actions/user.actions";
-import { ID } from "node-appwrite";
+import { loginAccount } from "@/lib/actions/user.actions";
+import { FormFieldTypes } from "./UserForm";
+import { toast } from "sonner";
 
-export enum FormFieldTypes {
-  INPUT = "input",
-  PASSWORD = "password",
-  TEXTAREA = "textarea",
-  PHONE_INPUT = "phoneInput",
-  DATE_PICKER = "datePicker",
-  SELECT = "select",
-  CHECKBOX = "checkbox",
-  RADIO = "radio",
-  SKELETON = "skeleton",
-}
-
-const UserForm = () => {
+const LoginForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof UserFormValidation>>({
-    resolver: zodResolver(UserFormValidation),
+  const form = useForm<z.infer<typeof LoginFormValidation>>({
+    resolver: zodResolver(LoginFormValidation),
     defaultValues: {
-      name: "",
       email: "",
       password: "",
-      phone: "",
     },
   });
 
-  async function onSubmit(values: z.infer<typeof UserFormValidation>) {
+  async function onSubmit(values: z.infer<typeof LoginFormValidation>) {
     setIsLoading(true);
     try {
       const userData = {
-        userId: ID.unique(),
         email: values.email,
-        name: values.name,
         password: values.password,
-        phone: values.phone,
       };
-      const user = await createAccount(userData);
-      if (user) router.push(`/donner/${user.$id}/donnerRegistration`);
+      const user = await loginAccount(userData);
+      if(user) {
+        router.push(`/donner/${user.$id}/donnerRegistration`);
+        console.log(user);
+      }
+      else{
+        toast.error("Invalid email or password");
+      }
+      console.log(user);
     } catch (error) {
       console.log(error);
     }
     setIsLoading(false);
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
         <section className="mb-12 space-y-4">
           <h1 className="header">Hi there👋</h1>
-          <p className="text-dark-700">Register you Account</p>
+          <p className="text-dark-700">Login you Account</p>
         </section>
-
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldTypes.INPUT}
-          name="name"
-          label="Full Name"
-          placeholder="John Doe"
-          iconSrc="/assets/icons/user.svg"
-          iconAlt="user"
-        />
 
         <CustomFormField
           control={form.control}
@@ -92,17 +74,10 @@ const UserForm = () => {
           iconSrc="/assets/icons/password.svg"
           iconAlt="password"
         />
-
-        <CustomFormField
-          control={form.control}
-          fieldType={FormFieldTypes.PHONE_INPUT}
-          name="phone"
-          label="Phone Number"
-        />
-        <SubmitButton isLoading={isLoading}>Register</SubmitButton>
+        <SubmitButton isLoading={isLoading}>Login</SubmitButton>
       </form>
     </Form>
   );
 };
 
-export default UserForm;
+export default LoginForm;

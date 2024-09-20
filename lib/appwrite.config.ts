@@ -1,5 +1,13 @@
-import { Client, Databases, Messaging, Storage, Users } from "node-appwrite";
 
+
+import {
+  Client,
+  Databases,
+  Messaging,
+  Account,
+  Storage,
+  Users,
+} from "node-appwrite";
 
 export const {
   PROJECT_ID,
@@ -13,12 +21,10 @@ export const {
 
 const client = new Client();
 
-client
-  .setEndpoint(ENDPOINT!)
-  .setProject(PROJECT_ID!)
-  .setKey(API_KEY!);
+client.setEndpoint(ENDPOINT!).setProject(PROJECT_ID!).setKey(API_KEY!);
 
 export const databases = new Databases(client);
+export const account = new Account(client);
 export const users = new Users(client);
 export const messaging = new Messaging(client);
 export const storage = new Storage(client);

@@ -1,7 +1,21 @@
 declare interface CreateUserParams {
+  userId: string;
   name: string;
   email: string;
+  password: string;
   phone: string;
+}
+
+declare interface CreateAccountParams{
+  userId: string;
+  name: string;
+  email: string;
+  password: string;
+}
+
+declare interface LoginAccountParams{
+  email: string;
+  password: string;
 }
 
 declare type SearchParamProps = {
