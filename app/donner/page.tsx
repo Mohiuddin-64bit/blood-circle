@@ -2,7 +2,6 @@ import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DateTable";
 import { getRecentDonnerList } from "@/lib/actions/user.actions";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -14,13 +13,9 @@ const AllDonnerPage = async () => {
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
       <header className="admin-header">
         <Link href="/" className="cursor-pointer">
-          <Image
-            src="/assets/icons/logo-full.svg"
-            height={32}
-            width={162}
-            alt="logo"
-            className="h-8 w-fit"
-          />
+        <h3 className="text-center text-2xl font-bold">
+            Blood <span className="text-green-500">Circle</span>
+          </h3>
         </Link>
       </header>
 
