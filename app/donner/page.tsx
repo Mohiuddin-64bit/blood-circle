@@ -8,6 +8,7 @@ import React from "react";
 
 const AllDonnerPage = async () => {
   const donner = await getRecentDonnerList();
+  console.log(donner);
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
@@ -34,7 +35,7 @@ const AllDonnerPage = async () => {
         <section className="admin-stat">
           <StatCard
             type="appointments"
-            count={donner?.total}
+            count={donner?.total || 0}
             label="Total Donner"
             description="Total number of donner in the system."
             icon={"/assets/icons/person.svg"}
@@ -42,20 +43,20 @@ const AllDonnerPage = async () => {
           <StatCard
             type="pending"
             label="Active Donner"
-            count={donner?.total}
+            count={donner?.total || 0}
             description="Donner who can donate blood now."
             icon={"/assets/icons/active.svg"}
           />
           <StatCard
             type="cancelled"
             label="Inactive Donner"
-            count={donner?.total}
+            count={donner?.total || 0}
             description="Donner who donated blood in last 4 months."
             icon={"/assets/icons/inactive.svg"}
           />
         </section>
 
-        <DataTable columns={columns} data={donner?.documents} />
+        <DataTable columns={columns} data={donner?.documents || []} />
       </main>
     </div>
   );
