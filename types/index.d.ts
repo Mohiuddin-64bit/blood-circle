@@ -47,6 +47,7 @@ type IdentificationType = "National ID" | "Passport" | "Driver's License" | "Bir
 
 
 declare interface RegisterDonnerParams {
+  $id?: string;
   firstName: string;
   lastName: string;
   email: string;
