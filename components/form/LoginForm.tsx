@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,7 +10,7 @@ import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { LoginFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { loginAccount } from "@/lib/actions/user.actions";
+import { getDonnerByUserId, loginAccount } from "@/lib/actions/user.actions";
 import { FormFieldTypes } from "./UserForm";
 import { toast } from "sonner";
 
@@ -33,16 +34,22 @@ const LoginForm = () => {
         password: values.password,
       };
       const user = await loginAccount(userData);
-      if(user) {
-        router.push(`/donner/${user.$id}/donnerRegistration`);
-        console.log(user);
-      }
-      else{
+      console.log(user);
+      if (user) {
+        toast.success("Login successful");
+        const donner = await getDonnerByUserId(user?.userId);
+        console.log(donner);
+        const donnerId = donner?.documents[0]?.$id;
+        if (donner?.total > 0) {
+          router.push(`/profile/${donnerId}`);
+        } else {
+          router.push(`/donner/${user.$id}/donnerRegistration`);
+        }
+      } else {
         toast.error("Invalid email or password");
       }
-      console.log(user);
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.message);
     }
     setIsLoading(false);
   }

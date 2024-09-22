@@ -9,8 +9,9 @@ import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createAccount } from "@/lib/actions/user.actions";
+import { createAccount, getDonnerByUserId } from "@/lib/actions/user.actions";
 import { ID } from "node-appwrite";
+import { toast } from "sonner";
 
 export enum FormFieldTypes {
   INPUT = "input",
@@ -49,11 +50,22 @@ const UserForm = () => {
         phone: values.phone,
       };
       const user = await createAccount(userData);
-      if (user) router.push(`/donner/${user.$id}/donnerRegistration`);
+      if (user?.message) {
+        return toast.error(user.message);
+      }
+      const donner = await getDonnerByUserId(user?.userId);
+      console.log(donner);
+      const donnerId = donner?.documents[0]?.$id;
+      if (donner) {
+        router.push(`/profile/${donnerId}`);
+      } else {
+        router.push(`/donner/${user.$id}/donnerRegistration`);
+      }
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }
   return (
     <Form {...form}>

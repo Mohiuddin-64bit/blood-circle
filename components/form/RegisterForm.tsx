@@ -59,7 +59,7 @@ const RegisterForm = ({ user }: any) => {
       
       const donner = await registerDonner(donnerData);
       if (donner) {
-        router.push(`profile/${donner}`);
+        router.push(`/profile/${donner?.$id}`);
       }
     } catch (error) {
       console.log(error);

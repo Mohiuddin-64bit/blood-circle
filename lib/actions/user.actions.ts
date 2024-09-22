@@ -1,7 +1,7 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ID, Query } from "node-appwrite";
+import { Account, Client, ID, Query } from "node-appwrite";
 import {
   account,
   BUCKET_ID,
@@ -14,8 +14,8 @@ import {
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
-
 import { InputFile } from "node-appwrite/file";
+import { cookies } from "next/headers";
 
 // CREATE APPWRITE USER
 export const createUser = async (user: CreateUserParams) => {
@@ -29,13 +29,13 @@ export const createUser = async (user: CreateUserParams) => {
     );
     return parseStringify(newUser);
   } catch (error: any) {
-    // Check existing user
-    if (error && error?.code === 409) {
-      const existingUser = await users.list([
-        Query.equal("email", [user.email]),
-      ]);
-      return existingUser.users[0];
-    }
+    // // Check existing user
+    // if (error && error?.code === 409) {
+    //   const existingUser = await users.list([
+    //     Query.equal("email", [user.email]),
+    //   ]);
+    //   return existingUser.users[0];
+    // }
     console.error("An error occurred while creating a new user:", error);
   }
 };
@@ -47,19 +47,30 @@ export const createAccount = async (user: CreateAccountParams) => {
       ID.unique(),
       user.email,
       user.password,
-      user.name,
+      user.name
     );
 
-    await loginAccount({
+    const loginUser = await loginAccount({
       email: user.email,
-      password: user.password
+      password: user.password,
     });
 
-    return parseStringify(newUser);
+    // Set the user.secret in cookies after login
+    if (loginUser) {
+      cookies().set("session", loginUser.secret, {
+        httpOnly: true,
+        secure: true,
+        path: "/",
+        maxAge: 60 * 60 * 24 * 7, // 1 week
+      });
+    }
 
+    return parseStringify(newUser);
   } catch (error: any) {
+    if (error && error?.code === 409) {
+      return { message: "User already exists" };
+    }
     console.error("An error occurred while creating a new user:", error);
-    throw error; // Re-throw the error to handle it further up the call stack if needed
   }
 };
 
@@ -70,7 +81,15 @@ export const loginAccount = async (user: LoginAccountParams) => {
       user.email,
       user.password
     );
-    console.log(loginUser, "loginUser");
+
+    // Set the user.secret in cookies
+    cookies().set("session", loginUser.secret, {
+      httpOnly: true,
+      secure: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 7, // 1 week
+    });
+
     return parseStringify(loginUser);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error.message);
@@ -79,6 +98,9 @@ export const loginAccount = async (user: LoginAccountParams) => {
 
 // GET APPWRITE Account
 export const getAccount = async () => {
+  const client = new Client().setEndpoint(ENDPOINT!).setProject(PROJECT_ID!);
+
+  const account = new Account(client);
   try {
     const user = await account.get();
     return user;
@@ -86,6 +108,7 @@ export const getAccount = async () => {
     console.error("An error occurred while fetching user:", error);
   }
 };
+
 // Logout APPWRITE Account
 export const logoutAccount = async () => {
   try {
@@ -121,7 +144,6 @@ export const getDonner = async (userId: string) => {
 };
 
 // register Donner
-
 export const registerDonner = async ({
   identificationDocument,
   ...donner
@@ -173,12 +195,25 @@ export const getRecentDonnerList = async () => {
 
 // Get Donner By Id
 export const getDonnerById = async (donarId: string) => {
-  console.log(donarId, "adfasdfasdfasfasdflkjadsfkljsadfl");
   try {
     const donner = await databases.getDocument(
       DATABASE_ID!,
       DONNER_COLLECTION_ID!,
       donarId
+    );
+    return parseStringify(donner);
+  } catch (error: any) {
+    console.error("An error occurred while fetching donner:", error);
+  }
+};
+
+// get donner by userId
+export const getDonnerByUserId = async (userId: string) => {
+  try {
+    const donner = await databases.listDocuments(
+      DATABASE_ID!,
+      DONNER_COLLECTION_ID!,
+      [Query.equal("userId", userId)]
     );
     return parseStringify(donner);
   } catch (error: any) {

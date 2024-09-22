@@ -1,5 +1,3 @@
-
-
 import {
   Client,
   Databases,
@@ -19,7 +17,7 @@ export const {
   NEXT_PUBLIC_ENDPOINT: ENDPOINT,
 } = process.env;
 
-const client = new Client();
+export const client = new Client();
 
 client.setEndpoint(ENDPOINT!).setProject(PROJECT_ID!).setKey(API_KEY!);
 
@@ -28,3 +26,4 @@ export const account = new Account(client);
 export const users = new Users(client);
 export const messaging = new Messaging(client);
 export const storage = new Storage(client);
+   

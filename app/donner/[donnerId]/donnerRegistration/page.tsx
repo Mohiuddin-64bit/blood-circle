@@ -1,15 +1,11 @@
 import RegisterForm from "@/components/form/RegisterForm";
-import { getAccount } from "@/lib/actions/user.actions";
+import { getUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
 import React from "react";
 
-
-const DonnerRegister = async({params: {userId}}: SearchParamProps) => {
-
-  console.log(userId, "userId");
-
-  const user = await getAccount();
-  console.log(user, "user");
+const DonnerRegister = async ({ params: { donnerId } }: SearchParamProps) => {
+  
+  const user = await getUser(donnerId);
 
   return (
     <div className="flex h-screen max-h-screen">

@@ -24,7 +24,7 @@ const MyProfile = async ({ params }: SearchParamProps) => {
           </div>
           <div className="text-center md:text-left mt-5 md:mt-0">
             <h1 className="text-3xl font-semibold">
-              {profile.firstName} {profile.lastName}
+              {profile?.firstName} {profile?.lastName}
             </h1>
             <p className="">{profile?.email}</p>
             <p className="">{profile?.phone}</p>
@@ -42,10 +42,10 @@ const MyProfile = async ({ params }: SearchParamProps) => {
               Personal Information:
             </h2>
             <p>
-              <strong>First Name:</strong> {profile.firstName}
+              <strong>First Name:</strong> {profile?.firstName}
             </p>
             <p>
-              <strong>Last Name:</strong> {profile.lastName}
+              <strong>Last Name:</strong> {profile?.lastName}
             </p>
             <p>
               <strong>Email:</strong> {profile?.email}
