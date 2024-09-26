@@ -19,20 +19,22 @@ import {
 import { SelectItem } from "../ui/select";
 import FileUploader from "./FileUploader";
 import { useRouter } from "next/navigation";
-import { registerDonner } from "@/lib/actions/user.actions";
+import { registerDonner } from "@/lib/actions/donar.action";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RegisterForm = ({ user }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  console.log(user)
+  console.log(user);
 
   const form = useForm<z.infer<typeof DonnerFormValidation>>({
     resolver: zodResolver(DonnerFormValidation),
     defaultValues: {
       ...donnerFormDefaultValues,
     },
+
+    
   });
 
   async function onSubmit(values: z.infer<typeof DonnerFormValidation>) {
@@ -56,7 +58,7 @@ const RegisterForm = ({ user }: any) => {
         birthDate: new Date(values.birthDate),
         identificationDocument: formData,
       };
-      
+
       const donner = await registerDonner(donnerData);
       if (donner) {
         router.push(`/profile/${donner?.$id}`);

@@ -4,17 +4,14 @@
 import { Account, Client, ID, Query } from "node-appwrite";
 import {
   account,
-  BUCKET_ID,
   DATABASE_ID,
   databases,
   DONNER_COLLECTION_ID,
   ENDPOINT,
   PROJECT_ID,
-  storage,
   users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
-import { InputFile } from "node-appwrite/file";
 import { cookies } from "next/headers";
 
 // CREATE APPWRITE USER
@@ -143,55 +140,6 @@ export const getDonner = async (userId: string) => {
   }
 };
 
-// register Donner
-export const registerDonner = async ({
-  identificationDocument,
-  ...donner
-}: RegisterDonnerParams) => {
-  try {
-    let file;
-    if (identificationDocument) {
-      const inputFile = InputFile.fromBuffer(
-        identificationDocument?.get("blobFile") as Blob,
-        identificationDocument?.get("fileName") as string
-      );
-      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
-    }
-
-    const newDonner = await databases.createDocument(
-      DATABASE_ID!,
-      DONNER_COLLECTION_ID!,
-      ID.unique(),
-      {
-        identificationDocumentId: file?.$id ? file.$id : null,
-        identificationDocumentUrl: file?.$id
-          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`
-          : null,
-        ...donner,
-      }
-    );
-    return parseStringify(newDonner);
-  } catch (error: any) {
-    console.error("An error occurred while registering donner:", error);
-  }
-};
-
-// Get Recent Donner List
-export const getRecentDonnerList = async () => {
-  try {
-    const recentDonnerList = await databases.listDocuments(
-      DATABASE_ID!,
-      DONNER_COLLECTION_ID!,
-      [Query.orderDesc("$createdAt")]
-    );
-    return parseStringify(recentDonnerList);
-  } catch (error: any) {
-    console.error(
-      "An error occurred while fetching recent donner list:",
-      error
-    );
-  }
-};
 
 // Get Donner By Id
 export const getDonnerById = async (donarId: string) => {

@@ -27,6 +27,8 @@ export const calculateAge = (birthDate: Date) => {
   return age;
 };
 
+// set session in cookies
+
 // Get the status of the Donner based on the last donation date
 export const calculateStatus = (lastDonationDate: Date, gender: string) => {
   const today = new Date();

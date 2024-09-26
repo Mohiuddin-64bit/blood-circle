@@ -3,8 +3,10 @@ import React from "react";
 import { ArrowBigLeft, Pencil } from "lucide-react";
 import Link from "next/link";
 import { getDonnerById } from "@/lib/actions/user.actions";
+import Modal from "@/components/Modal/Modal";
 
 const MyProfile = async ({ params }: SearchParamProps) => {
+  const { profileId } = params;
   const profile = await getDonnerById(params.profileId);
   console.log(profile);
 
@@ -18,9 +20,7 @@ const MyProfile = async ({ params }: SearchParamProps) => {
         </Link>
         <div className="flex flex-col md:flex-row justify-around items-center py-5">
           <div className="h-52 w-52 dot-border rounded-full flex flex-col justify-center items-center">
-            <h2 className="text-6xl font-bold">
-              {profile?.bloodGroup}
-            </h2>
+            <h2 className="text-6xl font-bold">{profile?.bloodGroup}</h2>
           </div>
           <div className="text-center md:text-left mt-5 md:mt-0">
             <h1 className="text-3xl font-semibold">
@@ -129,7 +129,14 @@ const MyProfile = async ({ params }: SearchParamProps) => {
               <strong>ID Number:</strong> {profile?.identificationNumber}
             </p>
             <p>
-              <strong>Document:</strong> <a target="_black" className="text-blue-500" href={profile?.identificationDocumentUrl}>View</a>
+              <strong>Document:</strong>{" "}
+              <a
+                target="_black"
+                className="text-blue-500"
+                href={profile?.identificationDocumentUrl}
+              >
+                View
+              </a>
             </p>
           </div>
 
