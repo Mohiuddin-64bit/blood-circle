@@ -2,18 +2,18 @@ import Header from "@/components/Header";
 import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DateTable";
-// import { getRecentDonnerList } from "@/lib/actions/donar.action";
+import { getRecentDonnerList } from "@/lib/actions/donar.action";
 import React from "react";
 
 const AllDonnerPage = async () => {
-  // const donner = await getRecentDonnerList();
+  const donner = await getRecentDonnerList();
 
-  const donar = await fetch("https://bloodcircle.vercel.app/api/donar", {
-    method: "GET",
-    cache: "no-cache",
-  });
+  // const donar = await fetch("https://bloodcircle.vercel.app/api/donar", {
+  //   method: "GET",
+  //   cache: "no-cache",
+  // });
 
-  const donner = await donar.json();
+  // const donner = await donar.json();
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
