@@ -3,12 +3,10 @@ import React from "react";
 import { ArrowBigLeft, Pencil } from "lucide-react";
 import Link from "next/link";
 import { getDonnerById } from "@/lib/actions/user.actions";
-import Modal from "@/components/Modal/Modal";
 
 const MyProfile = async ({ params }: SearchParamProps) => {
   const { profileId } = params;
-  const profile = await getDonnerById(params.profileId);
-  console.log(profile);
+  const profile = await getDonnerById(profileId);
 
   return (
     <div className="container py-5">

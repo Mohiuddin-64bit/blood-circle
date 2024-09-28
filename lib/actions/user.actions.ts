@@ -1,44 +1,19 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Account, Client, ID, Query } from "node-appwrite";
+import { ID, Query } from "node-appwrite";
 import {
-  account,
   DATABASE_ID,
   databases,
   DONNER_COLLECTION_ID,
-  ENDPOINT,
-  PROJECT_ID,
-  users,
 } from "../appwrite.config";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
-
-// CREATE APPWRITE USER
-export const createUser = async (user: CreateUserParams) => {
-  try {
-    const newUser = await users.create(
-      ID.unique(),
-      user.email,
-      user.phone,
-      user.password,
-      user.name
-    );
-    return parseStringify(newUser);
-  } catch (error: any) {
-    // // Check existing user
-    // if (error && error?.code === 409) {
-    //   const existingUser = await users.list([
-    //     Query.equal("email", [user.email]),
-    //   ]);
-    //   return existingUser.users[0];
-    // }
-    console.error("An error occurred while creating a new user:", error);
-  }
-};
+import { createAdminClient, createSessionClient } from "@/appwrite/config";
 
 // Create APPWRITE ACCOUNT
 export const createAccount = async (user: CreateAccountParams) => {
+  const { account } = await createAdminClient();
   try {
     const newUser = await account.create(
       ID.unique(),
@@ -47,20 +22,7 @@ export const createAccount = async (user: CreateAccountParams) => {
       user.name
     );
 
-    const loginUser = await loginAccount({
-      email: user.email,
-      password: user.password,
-    });
-
-    // Set the user.secret in cookies after login
-    if (loginUser) {
-      cookies().set("session", loginUser.secret, {
-        httpOnly: true,
-        secure: true,
-        path: "/",
-        maxAge: 60 * 60 * 24 * 7, // 1 week
-      });
-    }
+    loginAccount({ email: user.email, password: user.password });
 
     return parseStringify(newUser);
   } catch (error: any) {
@@ -73,34 +35,22 @@ export const createAccount = async (user: CreateAccountParams) => {
 
 // Login APPWRITE ACCOUNT
 export const loginAccount = async (user: LoginAccountParams) => {
+  const { account } = await createAdminClient();
+
   try {
-    const loginUser = await account.createEmailPasswordSession(
+    const session = await account.createEmailPasswordSession(
       user.email,
       user.password
     );
 
-    // Set the user.secret in cookies
-    cookies().set("session", loginUser.secret, {
+    cookies().set("session", session.secret, {
       httpOnly: true,
+      sameSite: "strict",
       secure: true,
+      expires: new Date(session.expire),
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 1 week
     });
-
-    return parseStringify(loginUser);
-  } catch (error: any) {
-    console.error("An error occurred while fetching user:", error.message);
-  }
-};
-
-// GET APPWRITE Account
-export const getAccount = async () => {
-  const client = new Client().setEndpoint(ENDPOINT!).setProject(PROJECT_ID!);
-
-  const account = new Account(client);
-  try {
-    const user = await account.get();
-    return user;
+    return parseStringify(session);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);
   }
@@ -108,18 +58,24 @@ export const getAccount = async () => {
 
 // Logout APPWRITE Account
 export const logoutAccount = async () => {
+  const session = cookies().get("session") as any;
+  const { account } = await createSessionClient(session.value);
   try {
     const logoutUser = await account.deleteSession("current");
     return parseStringify(logoutUser);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);
   }
+  cookies().delete("session");
+  
 };
 
-// GET APPWRITE USER
-export const getUser = async (userId: string) => {
+// GET APPWRITE ACCOUNT
+export const getUser = async () => {
+  const session = cookies().get("session") as any;
+  const { account } = await createSessionClient(session?.value);
   try {
-    const user = await users.get(userId);
+    const user = await account.get();
     return parseStringify(user);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);
@@ -139,7 +95,6 @@ export const getDonner = async (userId: string) => {
     console.error("An error occurred while fetching user:", error);
   }
 };
-
 
 // Get Donner By Id
 export const getDonnerById = async (donarId: string) => {

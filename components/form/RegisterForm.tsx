@@ -26,8 +26,6 @@ const RegisterForm = ({ user }: any) => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  console.log(user);
-
   const form = useForm<z.infer<typeof DonnerFormValidation>>({
     resolver: zodResolver(DonnerFormValidation),
     defaultValues: {
@@ -89,7 +87,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="firstName"
-            label="First Name*"
+            label="First Name *"
             placeholder="Iqbal"
             iconSrc="/assets/icons/user.svg"
             iconAlt="user"
@@ -98,7 +96,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="lastName"
-            label="Last Name*"
+            label="Last Name *"
             placeholder="Hossain"
             iconSrc="/assets/icons/user.svg"
             iconAlt="user"
@@ -179,14 +177,14 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="emergencyContactName"
-            label="Emergency Contact Name"
+            label="Emergency Contact Name (Optional)"
             placeholder="Guardian's Name"
           />
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="emergencyContactNumber"
-            label="Emergency Contact Number"
+            label="Emergency Contact Number (Optional)"
             placeholder="017XXXXXXXX"
           />
         </div>
@@ -234,7 +232,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.TEXTAREA}
             name="allergies"
-            label="Allergies"
+            label="Allergies (Optional)"
             placeholder="Peanuts, Dust, etc."
           />
 
@@ -242,7 +240,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="medications"
-            label="Medications"
+            label="Medications (Optional)"
             placeholder="Paracetamol, etc."
           />
         </div>
@@ -251,7 +249,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.TEXTAREA}
             name="medicalConditions"
-            label="Medical Conditions"
+            label="Medical Conditions (Optional)"
             placeholder="Asthma, Diabetes, etc."
           />
         </div>
@@ -351,7 +349,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.SELECT}
             name="IdentificationType"
-            label="Identification Type"
+            label="Identification Type (Optional)" 
             placeholder="Select Identification Type"
           >
             {identificationTypes.map((option) => (
@@ -365,7 +363,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="IdentificationNumber"
-            label="Identification Number"
+            label="Identification Number (Optional)"
             placeholder="123456789"
           />
         </div>
@@ -374,7 +372,7 @@ const RegisterForm = ({ user }: any) => {
             control={form.control}
             fieldType={FormFieldTypes.SKELETON}
             name="identificationDocument"
-            label="Upload Identification Document"
+            label="Upload Identification Document (Optional)"
             renderSkeleton={(field) => (
               <FormControl>
                 <FileUploader files={field.value} onChange={field.onChange} />

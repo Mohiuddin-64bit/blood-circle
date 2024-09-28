@@ -54,7 +54,6 @@ const UserForm = () => {
         return toast.error(user.message);
       }
       const donner = await getDonnerByUserId(user?.userId);
-      console.log(donner);
       const donnerId = donner?.documents[0]?.$id;
       if (donner) {
         router.push(`/profile/${donnerId}`);

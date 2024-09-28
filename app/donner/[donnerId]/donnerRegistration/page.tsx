@@ -4,10 +4,10 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const DonnerRegister = async ({ params: { donnerId } }: SearchParamProps) => {
+const DonnerRegister = async () => {
 
-  const user = await getUser(donnerId);
-  console.log(user)
+  const user = await getUser();
+  console.log("user", user);
 
   return (
     <div className="flex h-screen max-h-screen">

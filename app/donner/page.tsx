@@ -1,22 +1,23 @@
+import Header from "@/components/Header";
 import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DateTable";
-import { getRecentDonnerList } from "@/lib/actions/donar.action";
-import Link from "next/link";
+// import { getRecentDonnerList } from "@/lib/actions/donar.action";
 import React from "react";
 
 const AllDonnerPage = async () => {
-  const donner = await getRecentDonnerList();
+  // const donner = await getRecentDonnerList();
+
+  const donar = await fetch("http://localhost:3000/api/donar", {
+    method: "GET",
+    cache: "no-cache",
+  });
+
+  const donner = await donar.json();
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
-      <header className="admin-header">
-        <Link href="/" className="cursor-pointer">
-          <h3 className="text-center text-3xl font-bold">
-            Blood <span className="text-green-500">Circle</span>
-          </h3>
-        </Link>
-      </header>
+      <Header />
 
       <main className="admin-main">
         <section className="w-full space-y-4">
@@ -50,7 +51,7 @@ const AllDonnerPage = async () => {
           />
         </section>
 
-        <DataTable columns={columns} data={donner?.documents} />
+        <DataTable columns={columns} data={donner.donner} />
       </main>
     </div>
   );

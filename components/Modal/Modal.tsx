@@ -14,7 +14,6 @@ import RegisterForm from "../form/RegisterForm";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Modal = () => {
-  // console.log(profile);
 
   const [open, setOpen] = useState(false);
   return (
