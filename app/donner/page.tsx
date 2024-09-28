@@ -51,7 +51,7 @@ const AllDonnerPage = async () => {
           />
         </section>
 
-        <DataTable columns={columns} data={donner.donner} />
+        <DataTable columns={columns} data={donner.documents} />
       </main>
     </div>
   );
