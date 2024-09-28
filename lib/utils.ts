@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { getRecentDonnerList } from "./actions/user.actions";
+import { getRecentDonnerList } from "./actions/donar.action";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

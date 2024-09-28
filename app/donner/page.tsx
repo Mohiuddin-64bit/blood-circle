@@ -8,7 +8,7 @@ import React from "react";
 const AllDonnerPage = async () => {
   // const donner = await getRecentDonnerList();
 
-  const donar = await fetch("http://localhost:3000/api/donar", {
+  const donar = await fetch("https://bloodcircle.vercel.app/api/donar", {
     method: "GET",
     cache: "no-cache",
   });
