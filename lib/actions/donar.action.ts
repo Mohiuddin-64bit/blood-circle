@@ -11,7 +11,7 @@ import {
   PROJECT_ID,
   storage,
 } from "../appwrite.config";
-import { parseStringify } from "../utils";
+import { calculateStatus, parseStringify } from "../utils";
 import { InputFile } from "node-appwrite/file";
 import {createAdminClient} from "@/appwrite/config";
 
@@ -83,6 +83,23 @@ export const getRecentDonnerList = async () => {
       error
     );
   }
+};
+
+export const getDonorStatusCounts = async () => {
+  const donors = await getRecentDonnerList();
+  let activeCount = 0;
+  let inactiveCount = 0;
+
+  donors?.documents.forEach((donor: RegisterDonnerParams) => {
+    const status = calculateStatus(donor.lastDonationDate, donor.gender);
+    if (status === "active") {
+      activeCount++;
+    } else {
+      inactiveCount++;
+    }
+  });
+
+  return { activeCount, inactiveCount, total: donors?.documents.length };
 };
 
 // Get Donner By Id

@@ -67,7 +67,6 @@ export const logoutAccount = async () => {
     console.error("An error occurred while fetching user:", error);
   }
   cookies().delete("session");
-  
 };
 
 // GET APPWRITE ACCOUNT

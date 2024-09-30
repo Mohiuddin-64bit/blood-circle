@@ -13,6 +13,7 @@ export const StatCard = ({ count , label, icon, type, description }: StatCardPro
   
   return (
     <div
+    
       className={clsx("stat-card", {
         "bg-appointments": type === "appointments",
         "bg-pending": type === "pending",
