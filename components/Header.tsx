@@ -3,10 +3,9 @@ import React from "react";
 import checkUserCookie from "@/lib/checkUser";
 import LogoutButton from "./LogoutButton";
 import { getUser } from "@/lib/actions/user.actions";
+
 const Header = async () => {
   const user = await getUser();
-  console.log(user);
-
   const isUserAuthenticated = checkUserCookie();
 
   return (

@@ -62,11 +62,11 @@ export const logoutAccount = async () => {
   const { account } = await createSessionClient(session.value);
   try {
     const logoutUser = await account.deleteSession("current");
+    cookies().delete("session");
     return parseStringify(logoutUser);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);
   }
-  cookies().delete("session");
 };
 
 // GET APPWRITE ACCOUNT

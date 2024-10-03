@@ -2,11 +2,15 @@
 import React from "react";
 import { ArrowBigLeft, Pencil } from "lucide-react";
 import Link from "next/link";
-import { getDonnerById } from "@/lib/actions/user.actions";
+import { getDonnerById, getUser } from "@/lib/actions/user.actions";
+import checkUserCookie from "@/lib/checkUser";
 
 const MyProfile = async ({ params }: SearchParamProps) => {
   const { profileId } = params;
   const profile = await getDonnerById(profileId);
+  const isUserAuthenticated = checkUserCookie();
+  const user = await getUser();
+
 
   return (
     <div className="container py-5">
@@ -27,9 +31,11 @@ const MyProfile = async ({ params }: SearchParamProps) => {
             <p className="">{profile?.email}</p>
             <p className="">{profile?.phone}</p>
             <p className="">{profile?.address}</p>
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md mt-1">
-              <Pencil size="12px" />
-            </button>
+            {isUserAuthenticated && user.email === profile.email && (
+              <button className="bg-green-500 text-white px-4 py-2 rounded-md mt-1">
+                <Pencil size="12px" />
+              </button>
+            )}
           </div>
         </div>
         <hr className="my-6" />
@@ -78,13 +84,14 @@ const MyProfile = async ({ params }: SearchParamProps) => {
               <strong>Height:</strong> {profile?.height}
             </p>
             <p>
-              <strong>Allergies:</strong> {profile?.allergies}
+              <strong>Allergies:</strong> {profile?.allergies || "N/A"}
             </p>
             <p>
-              <strong>Medications:</strong> {profile?.medications}
+              <strong>Medications:</strong> {profile?.medications || "N/A"}
             </p>
             <p>
-              <strong>Medical Conditions:</strong> {profile?.medicalConditions}
+              <strong>Medical Conditions:</strong>{" "}
+              {profile?.medicalConditions || "N/A"}
             </p>
           </div>
 
@@ -107,7 +114,7 @@ const MyProfile = async ({ params }: SearchParamProps) => {
               Vaccinations & Donations:
             </h2>
             <p>
-              <strong>Vaccinations:</strong> {profile?.vaccinations}
+              <strong>Vaccinations:</strong> {profile?.vaccinations || "N/A"}
             </p>
             <p>
               <strong>Donation History:</strong> {profile?.donationHistory}
@@ -121,10 +128,11 @@ const MyProfile = async ({ params }: SearchParamProps) => {
           <div>
             <h2 className="text-xl font-semibold mb-2">Identification:</h2>
             <p>
-              <strong>ID Type:</strong> {profile?.identificationType}
+              <strong>ID Type:</strong> {profile?.identificationType || "N/A"}
             </p>
             <p>
-              <strong>ID Number:</strong> {profile?.identificationNumber}
+              <strong>ID Number:</strong>{" "}
+              {profile?.identificationNumber || "N/A"}
             </p>
             <p>
               <strong>Document:</strong>{" "}
@@ -141,10 +149,12 @@ const MyProfile = async ({ params }: SearchParamProps) => {
           <div>
             <h2 className="text-xl font-semibold mb-2">Emergency Contact:</h2>
             <p>
-              <strong>Contact Name:</strong> {profile?.emergencyContactName}
+              <strong>Contact Name:</strong>{" "}
+              {profile?.emergencyContactName || "N/A"}
             </p>
             <p>
-              <strong>Contact Number:</strong> {profile?.emergencyContactNumber}
+              <strong>Contact Number:</strong>{" "}
+              {profile?.emergencyContactNumber || "N/A"}
             </p>
           </div>
         </div>
