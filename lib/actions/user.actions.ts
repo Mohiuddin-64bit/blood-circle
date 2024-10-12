@@ -22,7 +22,7 @@ export const createAccount = async (user: CreateAccountParams) => {
       user.name
     );
 
-    loginAccount({ email: user.email, password: user.password });
+    await loginAccount({ email: user.email, password: user.password });
 
     return parseStringify(newUser);
   } catch (error: any) {

@@ -4,7 +4,9 @@ import checkUserCookie from "@/lib/checkUser";
 import LogoutButton from "./LogoutButton";
 import { getUser } from "@/lib/actions/user.actions";
 
-const Header = async () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Header = async ({userProfile}: any) => {
+  console.log(userProfile);
   const user = await getUser();
   const isUserAuthenticated = checkUserCookie();
 
@@ -17,9 +19,9 @@ const Header = async () => {
       </Link>
       {isUserAuthenticated && (
         <div className="flex items-center gap-5">
-          <p className="w-12 cursor-pointer h-12 bg-gray-800 dot-border rounded-full">
+          <Link href={`profile/${userProfile?.documents[0]?.$id}`} className="w-12 cursor-pointer h-12 bg-gray-800 dot-border rounded-full">
             {user?.name.substring(0, 2).toUpperCase()}
-          </p>
+          </Link>
           <LogoutButton />
         </div>
       )}

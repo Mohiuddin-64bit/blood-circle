@@ -50,6 +50,7 @@ const UserForm = () => {
         // phone: values.phone,
       };
       const user = await createAccount(userData);
+      console.log(user);
       if (user?.message) {
         return toast.error(user.message);
       }
@@ -58,7 +59,7 @@ const UserForm = () => {
       if (donner) {
         router.push(`/profile/${donnerId}`);
       } else {
-        router.push(`/donner/${user.$id}/donnerRegistration`);
+        router.push(`/donner/${user?.$id}/donnerRegistration`);
       }
     } catch (error) {
       console.log(error);

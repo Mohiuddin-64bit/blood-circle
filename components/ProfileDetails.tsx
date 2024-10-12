@@ -41,7 +41,7 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
             <p className="">{profile?.email}</p>
             <p className="">{profile?.phone}</p>
             <p className="">{profile?.address}</p>
-            {isUserAuthenticated && user.email === profile.email && (
+            {isUserAuthenticated && user?.email === profile?.email && (
               <button
                 onClick={() => setIsModalOpen(true)}
                 className="bg-green-500 text-white px-4 py-2 rounded-md mt-1"

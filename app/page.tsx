@@ -12,7 +12,7 @@ const Home = async () => {
 
   return (
     <>
-      <Header />
+      <Header userProfile={userProfile}/>
       <div className="flex flex-col h-screen max-h-screen justify-center items-center">
         <h3 className="text-4xl text-center">
           Welcome to the
@@ -28,7 +28,7 @@ const Home = async () => {
           {isUserAuthenticated ? (
             <Link href={`profile/${userProfile?.documents[0]?.$id}`}>
               <div className="flex justify-center items-center w-44 dot-border h-32 cursor-pointer hover:bg-dark-200 transition-all rounded-xl">
-                I&apos;m Donner
+                View Profile
               </div>
             </Link>
           ) : (
