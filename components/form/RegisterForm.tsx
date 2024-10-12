@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,50 +17,55 @@ import {
   BloodGroupOptions,
   donnerFormDefaultValues,
   GenderOptions,
-  identificationTypes,
 } from "@/constants";
 import { SelectItem } from "../ui/select";
 import FileUploader from "./FileUploader";
 import { useRouter } from "next/navigation";
-import { registerDonner } from "@/lib/actions/donar.action";
+import { registerDonner, updateDonner } from "@/lib/actions/donar.action";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const RegisterForm = ({ user }: any) => {
+const RegisterForm = ({ user, profile, type }: any) => {
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof DonnerFormValidation>>({
     resolver: zodResolver(DonnerFormValidation),
-    defaultValues: {
-      ...donnerFormDefaultValues,
-    },
-
-    
+    defaultValues: profile && type === "update"
+      ? {
+          ...donnerFormDefaultValues,
+          ...profile,
+        }
+      : donnerFormDefaultValues,
   });
 
   async function onSubmit(values: z.infer<typeof DonnerFormValidation>) {
     setIsLoading(true);
     let formData;
-    if (
-      values.identificationDocument &&
-      values.identificationDocument.length > 0
-    ) {
-      const blobFile = new Blob([values.identificationDocument[0]], {
-        type: values.identificationDocument[0].type,
+    if (values.profilePhoto && values.profilePhoto.length > 0) {
+      const blobFile = new Blob([values.profilePhoto[0]], {
+        type: values.profilePhoto[0].type,
       });
       formData = new FormData();
       formData.append("blobFile", blobFile);
-      formData.append("fileName", values.identificationDocument[0].name);
+      formData.append("fileName", values.profilePhoto[0].name);
     }
     try {
       const donnerData = {
         ...values,
-        userId: user.$id,
+        userId: user?.$id,
         birthDate: new Date(values.birthDate),
-        identificationDocument: formData,
+        profilePhoto: formData,
       };
-
-      const donner = await registerDonner(donnerData);
+  
+      let donner;
+      if (type === "update" && profile?.id) {
+        // Call update function
+        donner = await updateDonner(profile?.id, donnerData);
+      } else {
+        // Call register function
+        donner = await registerDonner(donnerData);
+      }
+  
       if (donner) {
         router.push(`/profile/${donner?.$id}`);
       }
@@ -178,7 +186,7 @@ const RegisterForm = ({ user }: any) => {
             fieldType={FormFieldTypes.INPUT}
             name="emergencyContactName"
             label="Emergency Contact Name (Optional)"
-            placeholder="Guardian's Name"
+            placeholder="Name"
           />
           <CustomFormField
             control={form.control}
@@ -347,32 +355,9 @@ const RegisterForm = ({ user }: any) => {
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}
-            fieldType={FormFieldTypes.SELECT}
-            name="IdentificationType"
-            label="Identification Type (Optional)" 
-            placeholder="Select Identification Type"
-          >
-            {identificationTypes.map((option) => (
-              <SelectItem key={option} value={option}>
-                <p>{option}</p>
-              </SelectItem>
-            ))}
-          </CustomFormField>
-
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.INPUT}
-            name="IdentificationNumber"
-            label="Identification Number (Optional)"
-            placeholder="123456789"
-          />
-        </div>
-        <div className="flex flex-col gap-6 xl:flex-row">
-          <CustomFormField
-            control={form.control}
             fieldType={FormFieldTypes.SKELETON}
-            name="identificationDocument"
-            label="Upload Identification Document (Optional)"
+            name="profilePhoto"
+            label="Profile Photo (Optional)"
             renderSkeleton={(field) => (
               <FormControl>
                 <FileUploader files={field.value} onChange={field.onChange} />

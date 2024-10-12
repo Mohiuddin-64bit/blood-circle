@@ -7,7 +7,6 @@ import React from "react";
 const DonnerRegister = async () => {
 
   const user = await getUser();
-  console.log("user", user);
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -19,7 +18,7 @@ const DonnerRegister = async () => {
             </h3>
           </Link>
 
-          <RegisterForm user={user} />
+          <RegisterForm user={user} type="create" />
           <p className="copyright py-12">© 2024 CarePluse</p>
         </div>
       </section>

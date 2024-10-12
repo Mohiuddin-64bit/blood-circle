@@ -33,17 +33,17 @@ export const getDonner = async (userId: string) => {
 
 // register Donner
 export const registerDonner = async ({
-  identificationDocument,
+  profilePhoto,
   ...donner
 }: RegisterDonnerParams) => {
   const {databases} = await createAdminClient();
 
   try {
     let file;
-    if (identificationDocument) {
+    if (profilePhoto) {
       const inputFile = InputFile.fromBuffer(
-        identificationDocument?.get("blobFile") as Blob,
-        identificationDocument?.get("fileName") as string
+        profilePhoto?.get("blobFile") as Blob,
+        profilePhoto?.get("fileName") as string
       );
       file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
     }
@@ -53,8 +53,8 @@ export const registerDonner = async ({
       DONNER_COLLECTION_ID!,
       ID.unique(),
       {
-        identificationDocumentId: file?.$id ? file.$id : null,
-        identificationDocumentUrl: file?.$id
+        profilePhotoId: file?.$id ? file.$id : null,
+        profilePhotoUrl: file?.$id
           ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`
           : null,
         ...donner,
@@ -65,6 +65,45 @@ export const registerDonner = async ({
     console.error("An error occurred while registering donner:", error);
   }
 };
+
+// update Donner
+export const updateDonner = async (
+  documentId: string,  // The ID of the donor document to update
+  {
+    profilePhoto,
+    ...updatedDonnerData
+  }: Partial<RegisterDonnerParams> // Partial type allows updating any field without requiring all fields
+) => {
+  const { databases } = await createAdminClient();
+
+  try {
+    let file;
+    if (profilePhoto) {
+      const inputFile = InputFile.fromBuffer(
+        profilePhoto?.get("blobFile") as Blob,
+        profilePhoto?.get("fileName") as string
+      );
+      file = await storage.createFile(BUCKET_ID!, ID.unique(), inputFile);
+    }
+
+    const updatedDonner = await databases.updateDocument(
+      DATABASE_ID!,
+      DONNER_COLLECTION_ID!,
+      documentId,  // The document ID of the donor to update
+      {
+        profilePhotoId: file?.$id ? file.$id : null,
+        profilePhotoUrl: file?.$id
+          ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`
+          : null,
+        ...updatedDonnerData,  // Spread the updated data
+      }
+    );
+    return parseStringify(updatedDonner);
+  } catch (error: any) {
+    console.error("An error occurred while updating donner:", error);
+  }
+};
+
 
 // Get Recent Donner List
 export const getRecentDonnerList = async () => {
@@ -149,19 +188,3 @@ export const getDonnerByEmail = async (email: string) => {
     console.error("An error occurred while fetching donner:", error);
   }
 };
-
-export const updateDonnerInfo = async (donnerId: string, donner: any) => {
-  const {databases} = await createAdminClient();
-
-  try {
-    const updatedDonner = await databases.updateDocument(
-      DATABASE_ID!,
-      DONNER_COLLECTION_ID!,
-      donnerId,
-      donner
-    );
-    return parseStringify(updatedDonner);
-  } catch (error: any) {
-    console.error("An error occurred while updating donner:", error);
-  }
-}

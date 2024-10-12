@@ -10,9 +10,9 @@ export const UserFormValidation = z.object({
       .string()
       .min(8, "Password must be at least 8 characters")
       .max(50, "Password must be at most 50 characters"),
-  phone: z
-    .string()
-    .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
+  // phone: z
+  //   .string()
+  //   .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
 });
 
 export const LoginFormValidation = z.object({
@@ -82,7 +82,7 @@ export const DonnerFormValidation = z.object({
   lastDonationDate: z.coerce.date(),
   identificationType: z.string().optional(),
   identificationNumber: z.string().optional(),
-  identificationDocument: z.custom<File[]>().optional(),
+  profilePhoto: z.custom<File[]>().optional(),
   donationConsent: z
     .boolean()
     .default(false)

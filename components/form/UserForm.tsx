@@ -35,7 +35,7 @@ const UserForm = () => {
       name: "",
       email: "",
       password: "",
-      phone: "",
+      // phone: "",
     },
   });
 
@@ -47,7 +47,7 @@ const UserForm = () => {
         email: values.email,
         name: values.name,
         password: values.password,
-        phone: values.phone,
+        // phone: values.phone,
       };
       const user = await createAccount(userData);
       if (user?.message) {
@@ -104,12 +104,12 @@ const UserForm = () => {
           iconAlt="password"
         />
 
-        <CustomFormField
+        {/* <CustomFormField
           control={form.control}
           fieldType={FormFieldTypes.PHONE_INPUT}
           name="phone"
           label="Phone Number"
-        />
+        /> */}
         <SubmitButton isLoading={isLoading}>Register</SubmitButton>
       </form>
     </Form>

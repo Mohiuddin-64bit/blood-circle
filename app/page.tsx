@@ -9,8 +9,6 @@ const Home = async () => {
   const isUserAuthenticated = checkUserCookie();
   const user = await getUser();
   const userProfile = await getDonnerByEmail(user?.email);
-  console.log(userProfile);
-  // console.log(user);
 
   return (
     <>

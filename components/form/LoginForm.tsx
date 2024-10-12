@@ -34,11 +34,9 @@ const LoginForm = () => {
         password: values.password,
       };
       const user = await loginAccount(userData);
-      console.log(user);
       if (user) {
         toast.success("Login successful");
         const donner = await getDonnerByUserId(user?.userId);
-        console.log(donner);
         const donnerId = donner?.documents[0]?.$id;
         if (donner?.total > 0) {
           router.push(`/profile/${donnerId}`);

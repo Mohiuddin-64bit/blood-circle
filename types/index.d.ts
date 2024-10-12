@@ -70,9 +70,7 @@ declare interface RegisterDonnerParams {
   Vaccinations: YesOrNo;
   donationHistory: YesOrNo;
   lastDonationDate: Date;
-  identificationType?: IdentificationType;
-  identificationNumber?: string | undefined;
-  identificationDocument?: FormData | undefined;
+  profilePhoto?: FormData | undefined;
   donationConsent: boolean;
   privacyConsent: boolean;
   disclosureConsent: boolean;
