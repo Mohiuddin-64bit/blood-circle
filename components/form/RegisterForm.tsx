@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,19 +22,22 @@ import FileUploader from "./FileUploader";
 import { useRouter } from "next/navigation";
 import { registerDonner, updateDonner } from "@/lib/actions/donar.action";
 
+
 const RegisterForm = ({ user, profile, type }: any) => {
+  console.log(profile.$id);
 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const form = useForm<z.infer<typeof DonnerFormValidation>>({
     resolver: zodResolver(DonnerFormValidation),
-    defaultValues: profile && type === "update"
-      ? {
-          ...donnerFormDefaultValues,
-          ...profile,
-        }
-      : donnerFormDefaultValues,
+    defaultValues:
+      profile && type === "update"
+        ? {
+            ...donnerFormDefaultValues,
+            ...profile,
+          }
+        : donnerFormDefaultValues,
   });
 
   async function onSubmit(values: z.infer<typeof DonnerFormValidation>) {
@@ -56,16 +58,16 @@ const RegisterForm = ({ user, profile, type }: any) => {
         birthDate: new Date(values.birthDate),
         profilePhoto: formData,
       };
-  
+
       let donner;
-      if (type === "update" && profile?.id) {
+      if (type === "update" && profile?.$id) {
         // Call update function
-        donner = await updateDonner(profile?.id, donnerData);
+        donner = await updateDonner(profile?.$id, donnerData);
       } else {
         // Call register function
         donner = await registerDonner(donnerData);
       }
-  
+
       if (donner) {
         router.push(`/profile/${donner?.$id}`);
       }
@@ -392,7 +394,9 @@ const RegisterForm = ({ user, profile, type }: any) => {
           label="I agree to the Disclosure Policy"
         />
 
-        <SubmitButton isLoading={isLoading}>Register</SubmitButton>
+        <SubmitButton isLoading={isLoading}>
+          {type === "update" ? "Update" : "Register"}
+        </SubmitButton>
       </form>
     </Form>
   );

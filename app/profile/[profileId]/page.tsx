@@ -4,6 +4,8 @@ import { getDonnerById, getUser } from "@/lib/actions/user.actions";
 import checkUserCookie from "@/lib/checkUser";
 import ProfileDetails from "@/components/ProfileDetails";
 
+export const revalidate = 0;
+
 const MyProfile = async ({ params }: SearchParamProps) => {
   const { profileId } = params;
   const profile = await getDonnerById(profileId);

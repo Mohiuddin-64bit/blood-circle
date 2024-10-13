@@ -32,9 +32,9 @@ const Home = async () => {
               </div>
             </Link>
           ) : (
-            <Link href="/register">
+            <Link href="/login">
               <div className="flex justify-center items-center w-44 dot-border h-32 cursor-pointer hover:bg-dark-200 transition-all rounded-xl">
-                I&apos;m Donner
+                I&apos;m Donor
               </div>
             </Link>
           )}

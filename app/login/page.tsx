@@ -16,7 +16,7 @@ const LoginPage = () => {
 
           <div className="text-14-regular mt-20 flex justify-between">
             <p className="justify-items-end text-dark-600 xl:text-left">
-              © 2024 Donner. All rights reserved.
+              © 2024 BloodCircle. All rights reserved.
             </p>
             <Link href="/register">Register</Link>
           </div>

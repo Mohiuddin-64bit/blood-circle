@@ -4,8 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-const DonnerRegister = async () => {
 
+const DonnerRegister = async () => {
   const user = await getUser();
 
   return (
@@ -19,7 +19,7 @@ const DonnerRegister = async () => {
           </Link>
 
           <RegisterForm user={user} type="create" />
-          <p className="copyright py-12">© 2024 CarePluse</p>
+          <p className="copyright py-12">© 2024 BloodCircle</p>
         </div>
       </section>
       <Image

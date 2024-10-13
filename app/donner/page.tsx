@@ -5,9 +5,13 @@ import { DataTable } from "@/components/table/DateTable";
 import { getDonorStatusCounts, getRecentDonnerList } from "@/lib/actions/donar.action";
 import React from "react";
 
+export const revalidate = 0;
+
 const AllDonnerPage = async () => {
   const donner = await getRecentDonnerList();
   const { activeCount, inactiveCount, total } = await getDonorStatusCounts();
+
+
 
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
@@ -25,22 +29,22 @@ const AllDonnerPage = async () => {
           <StatCard
             type="appointments"
             count={total}
-            label="Total Donner"
-            description="Total number of donner in the system."
+            label="Total Donor"
+            description="Total number of Donor in the system."
             icon={"/assets/icons/person.svg"}
           />
           <StatCard
             type="pending"
-            label="Active Donner"
+            label="Active Donor"
             count={activeCount}
-            description="Donner who can donate blood now."
+            description="Donor who can donate blood now."
             icon={"/assets/icons/active.svg"}
           />
           <StatCard
             type="cancelled"
-            label="Inactive Donner"
+            label="Inactive Donor"
             count={inactiveCount}
-            description="Donner who donated blood in last 4 months."
+            description="Donor who donated blood in last 4 months."
             icon={"/assets/icons/inactive.svg"}
           />
         </section>

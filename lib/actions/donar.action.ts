@@ -13,12 +13,11 @@ import {
 } from "../appwrite.config";
 import { calculateStatus, parseStringify } from "../utils";
 import { InputFile } from "node-appwrite/file";
-import {createAdminClient} from "@/appwrite/config";
-
+import { createAdminClient } from "@/appwrite/config";
 
 // Get APPWRITE Donner
 export const getDonner = async (userId: string) => {
-  const {databases} = await createAdminClient();
+  const { databases } = await createAdminClient();
   try {
     const donner = await databases.listDocuments(
       DATABASE_ID!,
@@ -36,7 +35,7 @@ export const registerDonner = async ({
   profilePhoto,
   ...donner
 }: RegisterDonnerParams) => {
-  const {databases} = await createAdminClient();
+  const { databases } = await createAdminClient();
 
   try {
     let file;
@@ -68,11 +67,8 @@ export const registerDonner = async ({
 
 // update Donner
 export const updateDonner = async (
-  documentId: string,  // The ID of the donor document to update
-  {
-    profilePhoto,
-    ...updatedDonnerData
-  }: Partial<RegisterDonnerParams> // Partial type allows updating any field without requiring all fields
+  documentId: string, 
+  { profilePhoto, ...updatedDonnerData }: Partial<RegisterDonnerParams>
 ) => {
   const { databases } = await createAdminClient();
 
@@ -89,13 +85,13 @@ export const updateDonner = async (
     const updatedDonner = await databases.updateDocument(
       DATABASE_ID!,
       DONNER_COLLECTION_ID!,
-      documentId,  // The document ID of the donor to update
+      documentId, // The document ID of the donor to update
       {
         profilePhotoId: file?.$id ? file.$id : null,
         profilePhotoUrl: file?.$id
           ? `${ENDPOINT}/storage/buckets/${BUCKET_ID}/files/${file.$id}/view?project=${PROJECT_ID}`
           : null,
-        ...updatedDonnerData,  // Spread the updated data
+        ...updatedDonnerData, // Spread the updated data
       }
     );
     return parseStringify(updatedDonner);
@@ -104,10 +100,9 @@ export const updateDonner = async (
   }
 };
 
-
 // Get Recent Donner List
 export const getRecentDonnerList = async () => {
-  const {databases} = await createAdminClient();
+  const { databases } = await createAdminClient();
 
   try {
     const recentDonnerList = await databases.listDocuments(
@@ -143,7 +138,7 @@ export const getDonorStatusCounts = async () => {
 
 // Get Donner By Id
 export const getDonnerById = async (donarId: string) => {
-  const {databases} = await createAdminClient();
+  const { databases } = await createAdminClient();
 
   try {
     const donner = await databases.getDocument(
@@ -159,7 +154,7 @@ export const getDonnerById = async (donarId: string) => {
 
 // get donner by userId
 export const getDonnerByUserId = async (userId: string) => {
-  const {databases} = await createAdminClient();
+  const { databases } = await createAdminClient();
 
   try {
     const donner = await databases.listDocuments(
@@ -175,7 +170,7 @@ export const getDonnerByUserId = async (userId: string) => {
 
 // get donner by email
 export const getDonnerByEmail = async (email: string) => {
-  const {databases} = await createAdminClient();
+  const { databases } = await createAdminClient();
 
   try {
     const donner = await databases.listDocuments(
