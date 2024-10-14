@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+// import Header from "@/components/Header";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <ThemeProvider attribute="class" defaultTheme="dark">
           <Toaster position="top-center" />
+          {/* <Header /> */}
           {children}
         </ThemeProvider>
       </body>

@@ -1,8 +1,10 @@
-import Header from "@/components/Header";
 import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
 import { DataTable } from "@/components/table/DateTable";
-import { getDonorStatusCounts, getRecentDonnerList } from "@/lib/actions/donar.action";
+import {
+  getDonorStatusCounts,
+  getRecentDonnerList,
+} from "@/lib/actions/donar.action";
 import React from "react";
 
 export const revalidate = 0;
@@ -11,12 +13,8 @@ const AllDonnerPage = async () => {
   const donner = await getRecentDonnerList();
   const { activeCount, inactiveCount, total } = await getDonorStatusCounts();
 
-
-
   return (
     <div className="mx-auto flex max-w-7xl flex-col space-y-14">
-      <Header />
-
       <main className="admin-main">
         <section className="w-full space-y-4">
           <h1 className="header">All Donar 🩸</h1>

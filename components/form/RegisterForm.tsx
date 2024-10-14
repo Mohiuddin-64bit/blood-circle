@@ -22,8 +22,7 @@ import FileUploader from "./FileUploader";
 import { useRouter } from "next/navigation";
 import { registerDonner, updateDonner } from "@/lib/actions/donar.action";
 
-
-const RegisterForm = ({ user, profile, type }: any) => {
+const RegisterForm = ({ user, profile, type, setOpen }: any) => {
   console.log(profile.$id);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +62,7 @@ const RegisterForm = ({ user, profile, type }: any) => {
       if (type === "update" && profile?.$id) {
         // Call update function
         donner = await updateDonner(profile?.$id, donnerData);
+        setOpen(false);
       } else {
         // Call register function
         donner = await registerDonner(donnerData);
@@ -395,7 +395,7 @@ const RegisterForm = ({ user, profile, type }: any) => {
         />
 
         <SubmitButton isLoading={isLoading}>
-          {type === "update" ? "Update" : "Register"}
+          {type === "update" ? "Update Profile" : "Register"}
         </SubmitButton>
       </form>
     </Form>

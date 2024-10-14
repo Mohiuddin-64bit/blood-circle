@@ -10,19 +10,19 @@ const LogoutButton = () => {
   const router = useRouter();
 
   const handleLogout = async () => {
-      try {
-          const logout = await logoutAccount();
-          if (logout) {
-              toast.success("Logout successfully");
-              router.push("/login");
-          } else {
-              toast.error("Logout failed");
-          }
-          return logout;
-      } catch (error) {
-          toast.error("An error occurred during logout");
-          console.error(error);
+    try {
+      const logout = await logoutAccount();
+      if (logout) {
+        toast.success("Logout successfully");
+        router.push("/login");
+      } else {
+        toast.error("Logout failed");
       }
+      return logout;
+    } catch (error) {
+      toast.error("An error occurred during logout");
+      console.error(error);
+    }
   };
   return (
     <Button onClick={handleLogout} className="shad-gray-btn dot-border">

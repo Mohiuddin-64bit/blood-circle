@@ -1,4 +1,3 @@
-import Header from "@/components/Header";
 import { getDonnerByEmail } from "@/lib/actions/donar.action";
 import { getUser } from "@/lib/actions/user.actions";
 import checkUserCookie from "@/lib/checkUser";
@@ -12,8 +11,7 @@ const Home = async () => {
 
   return (
     <>
-      <Header userProfile={userProfile}/>
-      <div className="flex flex-col h-screen max-h-screen justify-center items-center">
+      <div className="flex flex-col h-screen -mt-40 max-h-screen justify-center items-center">
         <h3 className="text-4xl text-center">
           Welcome to the
           <br />

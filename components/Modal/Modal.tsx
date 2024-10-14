@@ -22,7 +22,7 @@ const Modal = ({ profile, open, setOpen }: any) => {
             Update Profile Information
           </DialogTitle>
           <DialogDescription>
-            <RegisterForm type="update" profile={profile} />
+            <RegisterForm setOpen={setOpen} type="update" profile={profile} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

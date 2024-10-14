@@ -3,11 +3,14 @@ import React from "react";
 import checkUserCookie from "@/lib/checkUser";
 import LogoutButton from "./LogoutButton";
 import { getUser } from "@/lib/actions/user.actions";
+import { getDonnerByEmail } from "@/lib/actions/donar.action";
+
+export const revalidate = 0;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Header = async ({userProfile}: any) => {
-  console.log(userProfile);
+const Header = async () => {
   const user = await getUser();
+  const userProfile = await getDonnerByEmail(user?.email);
   const isUserAuthenticated = checkUserCookie();
 
   return (
