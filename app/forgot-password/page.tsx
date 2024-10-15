@@ -32,7 +32,7 @@ const ForgotPassword = () => {
       console.log(values);
       const requestData = {
         email: values.email,
-        url: "http://localhost:3000/recovery-password",
+        url: "https://bloodcircle.vercel.app/recovery-password",
       };
 
       await passwordRecovery(requestData);
