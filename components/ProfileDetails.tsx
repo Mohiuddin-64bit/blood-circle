@@ -7,6 +7,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import Modal from "./Modal/Modal";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
   console.log(user);
@@ -16,7 +17,6 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
     <div className="container py-5">
       {profile ? (
         <>
-          {" "}
           <div className="dot-border rounded-xl max-w-4xl mx-auto">
             <Link href="/donors">
               <div className="dot-border inline-block rounded-full hover:bg-dark-200 transition-all">
@@ -169,9 +169,14 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
           </div>
         </>
       ) : (
-        <>
+        <div className="text-center">
           <h1 className="text-4xl text-center">Profile Not Found</h1>
-        </>
+          <Button className="shad-gray-btn dot-border mt-5">
+            <Link href={`/donors/${user?.$id}/donnerRegistration`}>
+              Register
+            </Link>
+          </Button>
+        </div>
       )}
     </div>
   );

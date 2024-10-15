@@ -24,6 +24,8 @@ import { registerDonner, updateDonner } from "@/lib/actions/donar.action";
 
 const RegisterForm = ({ user, profile, type, setOpen }: any) => {
 
+  console.log(user)
+
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 

@@ -46,7 +46,7 @@ const LoginForm = () => {
         if (donner?.total > 0) {
           router.push(`/profile/${donnerId}`);
         } else {
-          router.push(`/donors/${user?.$id}/donnerRegistration`);
+          router.push(`/donors/${user?.userId}/donnerRegistration`);
         }
       } else {
         toast.error("Invalid email or password");
