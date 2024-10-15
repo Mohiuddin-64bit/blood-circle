@@ -15,6 +15,9 @@ const LogoutButton = () => {
       if (logout) {
         toast.success("Logout successfully");
         router.push("/login");
+        setTimeout(() => {
+          window.location.reload();
+        }, 100); 
       } else {
         toast.error("Logout failed");
       }
