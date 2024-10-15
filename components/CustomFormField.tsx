@@ -92,7 +92,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             />
           </FormControl>
         </div>
-      );   
+      );
     case FormFieldTypes.PHONE_INPUT:
       return (
         <FormControl>
@@ -122,10 +122,14 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             <DatePicker
               selected={field.value}
               onChange={field.onChange}
-              dateFormat={dateFormat ?? "MM/dd/yyyy"}
+              dateFormat={dateFormat ?? "dd/MM/yyyy"}
               showTimeSelect={showTimeSelect ?? false}
               timeInputLabel="Time:"
               wrapperClassName="date-picker"
+              showYearDropdown
+              yearDropdownItemNumber={50} // Number of years to show in the dropdown
+              scrollableYearDropdown // Makes the year dropdown scrollable
+              
             />
           </FormControl>
         </div>

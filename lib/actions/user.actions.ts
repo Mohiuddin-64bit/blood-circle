@@ -1,12 +1,7 @@
 "use server";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ID, Query } from "node-appwrite";
-import {
-  DATABASE_ID,
-  databases,
-  DONNER_COLLECTION_ID,
-} from "../appwrite.config";
+import { ID } from "node-appwrite";
 import { parseStringify } from "../utils";
 import { cookies } from "next/headers";
 import { createAdminClient, createSessionClient } from "@/appwrite/config";
@@ -81,44 +76,13 @@ export const getUser = async () => {
   }
 };
 
-// Get APPWRITE Donner
-export const getDonner = async (userId: string) => {
+// Password Recovery
+export const passwordRecovery = async (user: LoginAccountParams) => {
+  const { account } = await createAdminClient();
   try {
-    const donner = await databases.listDocuments(
-      DATABASE_ID!,
-      DONNER_COLLECTION_ID!,
-      [Query.equal("userId", userId)]
-    );
-    return parseStringify(donner.documents[0]);
+    const recovery = await account.createRecovery(user.email, user.password);
+    return parseStringify(recovery);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);
-  }
-};
-
-// Get Donner By Id
-export const getDonnerById = async (donarId: string) => {
-  try {
-    const donner = await databases.getDocument(
-      DATABASE_ID!,
-      DONNER_COLLECTION_ID!,
-      donarId
-    );
-    return parseStringify(donner);
-  } catch (error: any) {
-    console.error("An error occurred while fetching donner:", error);
-  }
-};
-
-// get donner by userId
-export const getDonnerByUserId = async (userId: string) => {
-  try {
-    const donner = await databases.listDocuments(
-      DATABASE_ID!,
-      DONNER_COLLECTION_ID!,
-      [Query.equal("userId", userId)]
-    );
-    return parseStringify(donner);
-  } catch (error: any) {
-    console.error("An error occurred while fetching donner:", error);
   }
 };

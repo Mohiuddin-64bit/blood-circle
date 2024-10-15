@@ -18,7 +18,7 @@ const Home = async () => {
           <span className="text-green-500 font-bold"> Blood Circle</span>
         </h3>
         <div className="flex flex-col md:flex-row gap-2 md:gap-7 lg:gap-12 mt-12 px-12">
-          <Link href="/donner">
+          <Link href="/donors">
             <div className="flex justify-center items-center w-44 dot-border h-32 cursor-pointer hover:bg-dark-200 transition-all rounded-xl">
               Need Blood🩸
             </div>

@@ -23,6 +23,10 @@ export const LoginFormValidation = z.object({
     .max(50, "Password must be at most 50 characters"),
 });
 
+export const ForgotPasswordFormValidation = z.object({
+  email: z.string().email("Invalid email address"),
+});
+
 export const DonnerFormValidation = z.object({
   firstName: z
     .string()

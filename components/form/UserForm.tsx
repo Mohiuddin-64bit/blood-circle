@@ -9,9 +9,10 @@ import SubmitButton from "../SubmitButton";
 import { useState } from "react";
 import { UserFormValidation } from "@/lib/validation";
 import { useRouter } from "next/navigation";
-import { createAccount, getDonnerByUserId } from "@/lib/actions/user.actions";
+import { createAccount } from "@/lib/actions/user.actions";
 import { ID } from "node-appwrite";
 import { toast } from "sonner";
+import { getDonnerByUserId } from "@/lib/actions/donar.action";
 
 export enum FormFieldTypes {
   INPUT = "input",
@@ -59,7 +60,7 @@ const UserForm = () => {
       if (donner) {
         router.push(`/profile/${donnerId}`);
       } else {
-        router.push(`/donner/${user?.$id}/donnerRegistration`);
+        router.push(`/donors/${user?.$id}/donnerRegistration`);
       }
     } catch (error) {
       console.log(error);

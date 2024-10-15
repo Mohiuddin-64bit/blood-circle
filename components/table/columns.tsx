@@ -20,7 +20,7 @@ export const columns: ColumnDef<RegisterDonnerParams>[] = [
   },
   {
     accessorKey: "birthDate",
-    header: "Birth Date",
+    header: "Age",
     cell: ({ row }) => (
       <p className="text-14-medium">
         {calculateAge(row.original.birthDate)} years
