@@ -23,8 +23,7 @@ import { useRouter } from "next/navigation";
 import { registerDonner, updateDonner } from "@/lib/actions/donar.action";
 
 const RegisterForm = ({ user, profile, type, setOpen }: any) => {
-
-  console.log(user)
+  console.log(user);
 
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
@@ -77,6 +76,9 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
     }
     setIsLoading(false);
   }
+
+  const firstTimeDonor = form.watch('firstTimeDonor');
+
   return (
     <Form {...form}>
       <form
@@ -336,10 +338,17 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}
+            fieldType={FormFieldTypes.CHECKBOX}
+            name="firstTimeDonor"
+            label="This is my first time donating blood"
+          />
+          <CustomFormField
+            control={form.control}
             fieldType={FormFieldTypes.SELECT}
             name="donationHistory"
             label="Donation in the past 4 months *"
             placeholder="Select Yes / No"
+            disabled={firstTimeDonor}
           >
             {["Yes", "No"].map((option) => (
               <SelectItem key={option} value={option}>
@@ -353,8 +362,10 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             fieldType={FormFieldTypes.DATE_PICKER}
             name="lastDonationDate"
             label="Last Donation Date *"
+            disabled={firstTimeDonor}
           />
         </div>
+
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}

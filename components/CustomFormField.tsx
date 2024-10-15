@@ -22,6 +22,7 @@ import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
 import { Checkbox } from "./ui/checkbox";
 import { Label } from "./ui/label";
+import { cn } from "@/lib/utils";
 interface CustomProps {
   control: Control<any>;
   fieldType: string;
@@ -116,11 +117,13 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
             alt="calendar"
             width={24}
             height={24}
-            className="ml-2"
+            className={cn("ml-2", disabled && "cursor-not-allowed")}
           />
           <FormControl>
             <DatePicker
               selected={field.value}
+              disabled={disabled}
+              className={cn("", disabled && "cursor-not-allowed")}
               onChange={field.onChange}
               dateFormat={dateFormat ?? "dd/MM/yyyy"}
               showTimeSelect={showTimeSelect ?? false}
@@ -129,7 +132,6 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
               showYearDropdown
               yearDropdownItemNumber={50} // Number of years to show in the dropdown
               scrollableYearDropdown // Makes the year dropdown scrollable
-              
             />
           </FormControl>
         </div>
@@ -139,7 +141,11 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
     case FormFieldTypes.SELECT:
       return (
         <FormControl>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          <Select
+            disabled={disabled ? true : false}
+            onValueChange={field.onChange}
+            defaultValue={field.value}
+          >
             <FormControl className="shad-select-trigger">
               <SelectTrigger className="shad-select-trigger">
                 <SelectValue placeholder={placeholder} />
@@ -183,7 +189,7 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
 };
 
 const CustomFormField = (props: CustomProps) => {
-  const { control, fieldType, name, label } = props;
+  const { control, fieldType, name, label, disabled } = props;
   return (
     <FormField
       control={control}
@@ -193,7 +199,7 @@ const CustomFormField = (props: CustomProps) => {
           {fieldType !== "checkbox" && label && (
             <FormLabel htmlFor={name}>{label}</FormLabel>
           )}
-          <RenderField field={field} props={props} />
+          <RenderField field={field} props={{ ...props, disabled }} />
           <FormMessage className="shad-error" />
         </FormItem>
       )}

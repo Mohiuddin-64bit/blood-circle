@@ -94,6 +94,12 @@ export const DonnerFormValidation = z.object({
   alcoholConsumption: z.enum(["Yes", "No"]),
   tattoos: z.enum(["Yes", "No"]),
   Vaccinations: z.enum(["Yes", "No"]),
+  firstTimeDonor: z
+  .boolean()
+  .default(false)
+  .refine((value) => value === true, {
+    message: "You must consent to disclosure in order to proceed",
+  }),
   donationHistory: z.enum(["Yes", "No"]),
   lastDonationDate: z.coerce.date(),
   identificationType: z.string().optional(),
