@@ -77,10 +77,21 @@ export const getUser = async () => {
 };
 
 // Password Recovery
-export const passwordRecovery = async (user: LoginAccountParams) => {
+export const passwordRecovery = async (values : any) => {
   const { account } = await createAdminClient();
   try {
-    const recovery = await account.createRecovery(user.email, user.password);
+    const recovery = await account.createRecovery(values.email, values.url);
+    return parseStringify(recovery);
+  } catch (error: any) {
+    console.error("An error occurred while fetching user:", error);
+  }
+};
+
+// Update Recovery password
+export const updateRecoveryPassword = async (values : any) => {
+  const { account } = await createAdminClient();
+  try {
+    const recovery = await account.updateRecovery(values.userId, values.secret, values.newPassword);
     return parseStringify(recovery);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);

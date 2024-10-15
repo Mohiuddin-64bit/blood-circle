@@ -27,6 +27,18 @@ export const ForgotPasswordFormValidation = z.object({
   email: z.string().email("Invalid email address"),
 });
 
+export const RecoveryPasswordFormValidation = z.object({
+  newPassword: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(50, "Password must be at most 50 characters"),
+  confirmPassword: z
+    .string()
+    .min(8, "Password must be at least 8 characters")
+    .max(50, "Password must be at most 50 characters"),
+});
+
+
 export const DonnerFormValidation = z.object({
   firstName: z
     .string()
