@@ -44,21 +44,25 @@ export const columns: ColumnDef<RegisterDonnerParams>[] = [
     header: "Status",
     cell: ({ row }) => {
       const { lastDonationDate, gender } = row.original;
-      const status = lastDonationDate ? calculateStatus(lastDonationDate, gender) : "unknown";
-
+      const status = lastDonationDate
+        ? calculateStatus(lastDonationDate, gender)
+        : "active";
       return (
         <div className="min-w-[115px]">
           <StatusBadge status={status} />
         </div>
       );
     },
-},
+  },
   {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => (
       <div className="flex items-center gap-2 ">
-        <Link href={`/profile/${row.original.$id}`} className="dot-border cursor-pointer rounded-xl hover:bg-dark-200 transition-all">
+        <Link
+          href={`/profile/${row.original.$id}`}
+          className="dot-border cursor-pointer rounded-xl hover:bg-dark-200 transition-all"
+        >
           <Eye />
         </Link>
         <a href={`tel:${row.original.phone}`}>
