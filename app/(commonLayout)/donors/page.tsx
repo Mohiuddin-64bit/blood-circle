@@ -1,6 +1,6 @@
+import FilterDonor from "@/components/FilterDonor";
 import { StatCard } from "@/components/StatCard";
 import { columns } from "@/components/table/columns";
-import { DataTable } from "@/components/table/DateTable";
 import {
   getDonorStatusCounts,
   getRecentDonnerList,
@@ -46,8 +46,7 @@ const AllDonnerPage = async () => {
             icon={"/assets/icons/inactive.svg"}
           />
         </section>
-
-        <DataTable columns={columns} data={donner.documents} />
+        <FilterDonor data={donner.documents} columns={columns} />
       </main>
     </div>
   );

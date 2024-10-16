@@ -236,7 +236,7 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             fieldType={FormFieldTypes.INPUT}
             name="height"
             label="Height (feet) *"
-            placeholder="5' 10''"
+            placeholder="5.9"
           />
         </div>
         <div className="flex flex-col gap-6 xl:flex-row">
