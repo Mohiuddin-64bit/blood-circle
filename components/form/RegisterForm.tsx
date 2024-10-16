@@ -39,6 +39,8 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
         : donnerFormDefaultValues,
   });
 
+  const firstTimeDonor = form.watch("firstTimeDonor");
+
   async function onSubmit(values: z.infer<typeof DonnerFormValidation>) {
     setIsLoading(true);
     let formData;
@@ -54,10 +56,14 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
       const donnerData = {
         ...values,
         userId: user?.$id,
-        birthDate: new Date(values.birthDate),
+        lastDonationDate: firstTimeDonor
+          ? null // If first time donor, send null
+          : values.lastDonationDate
+          ? new Date(values.lastDonationDate) // Otherwise, send the selected date
+          : null, // If no date is selected, still send null
         profilePhoto: formData,
       };
-
+      console.log(donnerData);
       let donner;
       if (type === "update" && profile?.$id) {
         // Call update function
@@ -76,8 +82,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
     }
     setIsLoading(false);
   }
-
-  const firstTimeDonor = form.watch('firstTimeDonor');
 
   return (
     <Form {...form}>
@@ -134,7 +138,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             label="Phone Number *"
           />
         </div>
-
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}
@@ -142,7 +145,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             name="birthDate"
             label="Date of Birth *"
           />
-
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.SKELETON}
@@ -176,7 +178,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             label="Address *"
             placeholder="1234 Main street, New York"
           />
-
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
@@ -201,13 +202,11 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             placeholder="017XXXXXXXX"
           />
         </div>
-
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
             <h2 className="sub-header">Medical Information</h2>
           </div>
         </section>
-
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}
@@ -248,7 +247,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             label="Allergies (Optional)"
             placeholder="Peanuts, Dust, etc."
           />
-
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
@@ -266,13 +264,11 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             placeholder="Asthma, Diabetes, etc."
           />
         </div>
-
         <section className="space-y-6">
           <div className="mb-9 space-y-1">
             <h2 className="sub-header">Lifestyle Information</h2>
           </div>
         </section>
-
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}
@@ -287,7 +283,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
               </SelectItem>
             ))}
           </CustomFormField>
-
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.SELECT}
@@ -335,28 +330,7 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             <h2 className="sub-header">Donation History</h2>
           </div>
         </section>
-        <div className="flex flex-col gap-6 xl:flex-row">
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.CHECKBOX}
-            name="firstTimeDonor"
-            label="This is my first time donating blood"
-          />
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldTypes.SELECT}
-            name="donationHistory"
-            label="Donation in the past 4 months *"
-            placeholder="Select Yes / No"
-            disabled={firstTimeDonor}
-          >
-            {["Yes", "No"].map((option) => (
-              <SelectItem key={option} value={option}>
-                <p>{option}</p>
-              </SelectItem>
-            ))}
-          </CustomFormField>
-
+        <div className="flex flex-col items-center gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.DATE_PICKER}
@@ -364,8 +338,13 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             label="Last Donation Date *"
             disabled={firstTimeDonor}
           />
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.CHECKBOX}
+            name="firstTimeDonor"
+            label="This is my first time donating blood"
+          />
         </div>
-
         <div className="flex flex-col gap-6 xl:flex-row">
           <CustomFormField
             control={form.control}

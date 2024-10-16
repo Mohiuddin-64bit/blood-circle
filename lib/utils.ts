@@ -45,7 +45,9 @@ export const getDonorStatusCounts = async () => {
   let inactiveCount = 0;
 
   donors?.documents.forEach((donor:RegisterDonnerParams) => {
-    const status = calculateStatus(donor.lastDonationDate, donor.gender);
+    const status = donor.lastDonationDate
+      ? calculateStatus(donor.lastDonationDate, donor.gender)
+      : "inactive";
     if (status === "active") {
       activeCount++;
     } else {

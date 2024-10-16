@@ -6,14 +6,14 @@ declare interface CreateUserParams {
   phone: string;
 }
 
-declare interface CreateAccountParams{
+declare interface CreateAccountParams {
   userId: string;
   name: string;
   email: string;
   password: string;
 }
 
-declare interface LoginAccountParams{
+declare interface LoginAccountParams {
   email: string;
   password: string;
 }
@@ -39,12 +39,17 @@ declare type BloodGroup =
   | "O+"
   | "O-";
 
-declare type Status = "active" | "inactive";
+declare type Status = "active" | "inactive" | "unknown";
 
 declare type YesOrNo = "Yes" | "No";
 
-type IdentificationType = "National ID" | "Passport" | "Driver's License" | "Birth Certificate" | string | undefined;
-
+type IdentificationType =
+  | "National ID"
+  | "Passport"
+  | "Driver's License"
+  | "Birth Certificate"
+  | string
+  | undefined;
 
 declare interface RegisterDonnerParams {
   $id?: string;
@@ -59,8 +64,8 @@ declare interface RegisterDonnerParams {
   emergencyContactName?: string;
   emergencyContactNumber?: string;
   bloodGroup: BloodGroup;
-  weight: string;
-  height: string;
+  weight: number;
+  height: number;
   allergies?: string | undefined;
   medications?: string | undefined;
   medicalConditions?: string | undefined;
@@ -68,8 +73,8 @@ declare interface RegisterDonnerParams {
   alcoholConsumption: YesOrNo;
   tattoos: YesOrNo;
   Vaccinations: YesOrNo;
-  donationHistory: YesOrNo;
-  lastDonationDate: Date;
+  firstTimeDonor?: boolean | undefined;
+  lastDonationDate: Date | null;
   profilePhoto?: FormData | undefined;
   donationConsent: boolean;
   privacyConsent: boolean;

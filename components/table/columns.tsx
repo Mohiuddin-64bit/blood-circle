@@ -44,7 +44,7 @@ export const columns: ColumnDef<RegisterDonnerParams>[] = [
     header: "Status",
     cell: ({ row }) => {
       const { lastDonationDate, gender } = row.original;
-      const status = calculateStatus(lastDonationDate, gender);
+      const status = lastDonationDate ? calculateStatus(lastDonationDate, gender) : "unknown";
 
       return (
         <div className="min-w-[115px]">

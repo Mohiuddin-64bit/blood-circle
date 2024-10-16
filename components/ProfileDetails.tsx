@@ -10,7 +10,7 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 
 const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
-  console.log(user);
+  console.log(profile);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -102,10 +102,10 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
                   <strong>Blood Group:</strong> {profile?.bloodGroup}
                 </p>
                 <p>
-                  <strong>Weight:</strong> {profile?.weight}
+                  <strong>Weight:</strong> {profile?.weight} KG
                 </p>
                 <p>
-                  <strong>Height:</strong> {profile?.height}
+                  <strong>Height:</strong> {profile?.height} Feet
                 </p>
                 <p>
                   <strong>Allergies:</strong> {profile?.allergies || "N/A"}
@@ -142,13 +142,10 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
                   {profile?.vaccinations || "N/A"}
                 </p>
                 <p>
-                  <strong>Donation History:</strong> {profile?.donationHistory}
-                </p>
-                <p>
                   <strong>Last Donation Date:</strong>{" "}
-                  {`${new Date(
-                    profile?.lastDonationDate
-                  ).toLocaleDateString()}`}
+                  {profile?.lastDonationDate
+                    ? new Date(profile.lastDonationDate).toLocaleDateString()
+                    : "N/A"}
                 </p>
               </div>
 

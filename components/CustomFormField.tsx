@@ -16,7 +16,6 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { FormFieldTypes } from "./form/UserForm";
 import DatePicker from "react-datepicker";
-
 import "react-datepicker/dist/react-datepicker.css";
 import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
 import { Textarea } from "./ui/textarea";
@@ -121,16 +120,16 @@ const RenderField = ({ field, props }: { field: any; props: CustomProps }) => {
           />
           <FormControl>
             <DatePicker
-              selected={field.value}
+              selected={field.value ? field.value : null}
               disabled={disabled}
               className={cn("", disabled && "cursor-not-allowed")}
-              onChange={field.onChange}
+              onChange={(date: Date | null) => field.onChange(date || null)}
               dateFormat={dateFormat ?? "dd/MM/yyyy"}
               showTimeSelect={showTimeSelect ?? false}
               timeInputLabel="Time:"
               wrapperClassName="date-picker"
               showYearDropdown
-              yearDropdownItemNumber={50} // Number of years to show in the dropdown
+              yearDropdownItemNumber={55} // Number of years to show in the dropdown
               scrollableYearDropdown // Makes the year dropdown scrollable
             />
           </FormControl>

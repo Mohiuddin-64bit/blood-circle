@@ -67,7 +67,7 @@ export const registerDonner = async ({
 
 // update Donner
 export const updateDonner = async (
-  documentId: string, 
+  documentId: string,
   { profilePhoto, ...updatedDonnerData }: Partial<RegisterDonnerParams>
 ) => {
   const { databases } = await createAdminClient();
@@ -125,7 +125,9 @@ export const getDonorStatusCounts = async () => {
   let inactiveCount = 0;
 
   donors?.documents.forEach((donor: RegisterDonnerParams) => {
-    const status = calculateStatus(donor.lastDonationDate, donor.gender);
+    const status = donor.lastDonationDate
+      ? calculateStatus(donor.lastDonationDate, donor.gender)
+      : "inactive";
     if (status === "active") {
       activeCount++;
     } else {

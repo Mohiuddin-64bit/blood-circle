@@ -1,3 +1,4 @@
+
 export const GenderOptions = ["Male", "Female", "Other"];
 
 export const YesOrNoOptions = ["Yes", "No"];
@@ -41,7 +42,8 @@ export const donnerFormDefaultValues = {
   alcoholConsumption: "" as YesOrNo,
   tattoos: "" as YesOrNo,
   Vaccinations: "" as YesOrNo,
-  lastDonationDate: null as Date | null, 
+  firstTimeDonor: false,
+  lastDonationDate: null, 
   donationHistory: "" as YesOrNo,
   profilePhoto: [],
   donationConsent: false,
@@ -52,4 +54,5 @@ export const donnerFormDefaultValues = {
 export const StatusIcon = {
   active: "/assets/icons/active.svg",
   inactive: "/assets/icons/inactive.svg",
+  unknown: "/assets/icons/inactive.svg",
 }
