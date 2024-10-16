@@ -10,7 +10,6 @@ import Image from "next/image";
 import { Button } from "./ui/button";
 
 const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
-  console.log(profile);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (

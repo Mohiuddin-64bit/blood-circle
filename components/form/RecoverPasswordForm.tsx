@@ -47,10 +47,9 @@ const RecoveryPasswordForm = () => {
         newPassword: values.newPassword,
         confirmPassword: values.confirmPassword,
       };
-      const response = await updateRecoveryPassword(requestData);
+      await updateRecoveryPassword(requestData);
       toast.success("Password updated successfully");
       route.push("/login");
-      console.log(response);
     } catch (error) {
       console.error("Error during password recovery:", error);
     } finally {

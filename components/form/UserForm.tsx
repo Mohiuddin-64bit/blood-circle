@@ -51,7 +51,6 @@ const UserForm = () => {
         // phone: values.phone,
       };
       const user = await createAccount(userData);
-      console.log(user);
       if (user?.message) {
         return toast.error(user.message);
       }

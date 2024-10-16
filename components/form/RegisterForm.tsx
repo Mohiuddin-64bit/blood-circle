@@ -23,8 +23,6 @@ import { useRouter } from "next/navigation";
 import { registerDonner, updateDonner } from "@/lib/actions/donar.action";
 
 const RegisterForm = ({ user, profile, type, setOpen }: any) => {
-  console.log(user);
-
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
@@ -63,7 +61,6 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
           : null, // If no date is selected, still send null
         profilePhoto: formData,
       };
-      console.log(donnerData);
       let donner;
       if (type === "update" && profile?.$id) {
         // Call update function

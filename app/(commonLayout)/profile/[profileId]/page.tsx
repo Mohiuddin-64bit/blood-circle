@@ -13,8 +13,6 @@ const MyProfile = async ({ params }: SearchParamProps) => {
   const isUserAuthenticated = checkUserCookie();
   const user = await getUser();
 
-  console.log(user);
-
   return (
     <ProfileDetails
       profile={profile}
