@@ -123,11 +123,10 @@ export const getDonorStatusCounts = async () => {
   const donors = await getRecentDonnerList();
   let activeCount = 0;
   let inactiveCount = 0;
-
   donors?.documents.forEach((donor: RegisterDonnerParams) => {
     const status = donor.lastDonationDate
       ? calculateStatus(donor.lastDonationDate, donor.gender)
-      : "inactive";
+      : "active";
     if (status === "active") {
       activeCount++;
     } else {
