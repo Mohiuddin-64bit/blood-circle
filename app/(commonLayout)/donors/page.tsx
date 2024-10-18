@@ -46,7 +46,7 @@ const AllDonnerPage = async () => {
             icon={"/assets/icons/inactive.svg"}
           />
         </section>
-        <FilterDonor data={donner.documents} columns={columns} />
+        <FilterDonor data={donner?.documents} columns={columns} />
       </main>
     </div>
   );
