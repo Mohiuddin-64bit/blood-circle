@@ -20,6 +20,10 @@ const LogoutButton = () => {
         }, 500); 
       } else {
         toast.error("Logout failed");
+        router.push("/login");
+        setTimeout(() => {
+          window.location.reload();
+        }, 500); 
       }
       return logout;
     } catch (error) {

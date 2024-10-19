@@ -138,14 +138,26 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
                 </h2>
                 <p>
                   <strong>Vaccinations:</strong>{" "}
-                  {profile?.vaccinations || "N/A"}
+                  {profile?.Vaccinations || "N/A"}
                 </p>
-                <p>
-                  <strong>Last Donation Date:</strong>{" "}
-                  {profile?.lastDonationDate
-                    ? new Date(profile.lastDonationDate).toLocaleDateString()
-                    : "N/A"}
-                </p>
+                {profile?.firstTimeDonor ? (
+                  <>
+                    {" "}
+                    <p>I never Donate Blood Before</p>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <p>
+                      <strong>Last Donation Date:</strong>{" "}
+                      {profile?.lastDonationDate
+                        ? new Date(
+                            profile.lastDonationDate
+                          ).toLocaleDateString()
+                        : "N/A"}
+                    </p>
+                  </>
+                )}
               </div>
 
               <div>

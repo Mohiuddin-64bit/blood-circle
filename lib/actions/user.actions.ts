@@ -55,6 +55,7 @@ export const loginAccount = async (user: LoginAccountParams) => {
 export const logoutAccount = async () => {
   const session = cookies().get("session") as any;
   const { account } = await createSessionClient(session.value);
+  
   try {
     const logoutUser = await account.deleteSession("current");
     cookies().delete("session");
@@ -77,7 +78,7 @@ export const getUser = async () => {
 };
 
 // Password Recovery
-export const passwordRecovery = async (values : any) => {
+export const passwordRecovery = async (values: any) => {
   const { account } = await createAdminClient();
   try {
     const recovery = await account.createRecovery(values.email, values.url);
@@ -88,10 +89,14 @@ export const passwordRecovery = async (values : any) => {
 };
 
 // Update Recovery password
-export const updateRecoveryPassword = async (values : any) => {
+export const updateRecoveryPassword = async (values: any) => {
   const { account } = await createAdminClient();
   try {
-    const recovery = await account.updateRecovery(values.userId, values.secret, values.newPassword);
+    const recovery = await account.updateRecovery(
+      values.userId,
+      values.secret,
+      values.newPassword
+    );
     return parseStringify(recovery);
   } catch (error: any) {
     console.error("An error occurred while fetching user:", error);

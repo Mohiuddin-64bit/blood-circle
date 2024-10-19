@@ -53,7 +53,10 @@ export const DonnerFormValidation = z
     email: z.string().email("Invalid email address"),
     phone: z
       .string()
-      .refine((phone) => /^\+\d{10,15}$/.test(phone), "Invalid phone number"),
+      .refine((number) => !number || /^\+8801[3-9]\d{8}$/.test(number), {
+        message:
+          "Invalid phone number format. It should be a valid Bangladeshi number in the format +8801XXXXXXXXX.",
+      }),
     birthDate: z.coerce
       .date() // Coerce input to a Date object
       .refine(
@@ -78,18 +81,20 @@ export const DonnerFormValidation = z
       .max(500, "Occupation must be at most 500 characters"),
     emergencyContactName: z
       .string()
-      // .min(2, "Contact name must be at least 2 characters")
-      // .max(50, "Contact name must be at most 50 characters")
-      .optional(),
-    emergencyContactNumber: z.string().optional(),
-    // .refine(
-    //   (emergencyContactNumber) =>
-    //     emergencyContactNumber === undefined ||
-    //     /^\+\d{10,15}$/.test(emergencyContactNumber),
-    //   {
-    //     message: "Invalid phone number",
-    //   }
-    // ),
+      .min(3, "Contact name must be at least 3 characters")
+      .max(20, "Contact name must be at most 20 characters")
+      .optional()
+      .refine((name) => !name || (name.length >= 2 && name.length <= 50), {
+        message: "Contact name must be between 2 and 50 characters",
+      }),
+
+    emergencyContactNumber: z
+      .string()
+      .optional()
+      .refine((number) => !number || /^\+8801[3-9]\d{8}$/.test(number), {
+        message:
+          "Invalid phone number format. It should be a valid Bangladeshi number in the format +8801XXXXXXXXX.",
+      }),
 
     bloodGroup: z.enum(["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"]),
     weight: z

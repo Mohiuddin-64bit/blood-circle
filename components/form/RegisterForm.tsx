@@ -191,12 +191,18 @@ const RegisterForm = ({ user, profile, type, setOpen }: any) => {
             label="Emergency Contact Name (Optional)"
             placeholder="Name"
           />
-          <CustomFormField
+          {/* <CustomFormField
             control={form.control}
             fieldType={FormFieldTypes.INPUT}
             name="emergencyContactNumber"
             label="Emergency Contact Number (Optional)"
             placeholder="017XXXXXXXX"
+          /> */}
+          <CustomFormField
+            control={form.control}
+            fieldType={FormFieldTypes.PHONE_INPUT}
+            name="emergencyContactNumber"
+            label="Emergency Contact Number (Optional)"
           />
         </div>
         <section className="space-y-6">
