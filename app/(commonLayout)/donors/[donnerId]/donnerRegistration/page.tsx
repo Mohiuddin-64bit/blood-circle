@@ -1,7 +1,6 @@
 import RegisterForm from "@/components/form/RegisterForm";
 import { getUser } from "@/lib/actions/user.actions";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
 
 
@@ -12,12 +11,6 @@ const DonnerRegister = async () => {
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
         <div className="sub-container max-w-[860px] flex-1 flex-col py-10">
-          <Link href="/" className="cursor-pointer">
-            <h3 className="text-center mb-12 text-3xl font-bold">
-              Blood <span className="text-green-500">Circle</span>
-            </h3>
-          </Link>
-
           <RegisterForm user={user} type="create" />
           <p className="copyright py-12">© 2024 BloodCircle</p>
         </div>
