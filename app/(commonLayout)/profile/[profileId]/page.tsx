@@ -15,7 +15,6 @@ const MyProfile = async ({ params }: SearchParamProps) => {
 
   return (
     <ProfileDetails
-    
       profile={profile}
       isUserAuthenticated={isUserAuthenticated}
       user={user}

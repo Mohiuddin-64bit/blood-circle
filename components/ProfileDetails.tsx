@@ -28,9 +28,9 @@ const ProfileDetails = ({ profile, isUserAuthenticated, user }: any) => {
                   <Image
                     src={profile?.profilePhotoUrl}
                     alt="profile"
-                    width={200}
-                    height={200}
-                    className="rounded-full"
+                    width={208}
+                    height={208}
+                    className="rounded-full h-52 w-52 object-cover object-center "
                   />
                 ) : (
                   <h1 className="text-6xl font-bold">{profile?.bloodGroup}</h1>
